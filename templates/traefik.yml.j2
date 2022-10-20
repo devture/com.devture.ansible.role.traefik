@@ -1,0 +1,36 @@
+# https://doc.traefik.io/traefik/reference/static-configuration/file/
+#
+# To extend this:
+# - tweak the individual variables
+# - use `devture_traefik_configuration_extension_yaml` to override statically defined values or introduce new ones
+global:
+  checkNewVersion: false
+  sendAnonymousUsage: false
+
+log:
+  level: {{ devture_traefik_config_log_level | to_json }}
+
+accessLog: {}
+
+entryPoints:
+  web:
+    address: ":80"
+    http:
+      redirections:
+        entryPoint:
+          to: web-secure
+          scheme: https
+  web-secure:
+    address: ":443"
+
+certificatesResolvers:
+  default:
+    acme:
+      email: {{ devture_traefik_ssl_email_address | to_json }}
+      storage: /ssl/acme.json
+      caServer: {{ devture_traefik_config_letsencrypt_resolver_caServer | to_json }}
+
+providers:
+  docker:
+    exposedByDefault: false
+    network: {{ devture_traefik_container_network | to_json }}

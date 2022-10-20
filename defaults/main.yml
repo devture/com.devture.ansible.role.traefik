@@ -1,0 +1,63 @@
+---
+
+devture_traefik_base_path: "/devture-traefik"
+devture_traefik_config_dir_path: "{{ devture_traefik_base_path }}/config"
+devture_traefik_ssl_dir_path: "{{ devture_traefik_base_path }}/ssl"
+
+devture_traefik_systemd_required_services_list: ['docker.service']
+
+devture_traefik_container_image: "docker.io/traefik:v2.9.1"
+
+devture_traefik_container_network: traefik
+
+# A list of extra arguments to pass to the container
+devture_traefik_container_extra_arguments: []
+
+devture_traefik_ssl_email_address: ''
+
+devture_traefik_uid: ~
+devture_traefik_gid: ~
+
+devture_traefik_config_log_level: INFO
+
+# devture_traefik_config_letsencrypt_use_staging controls whether the Let's Encrypt staging environment is used or not.
+devture_traefik_config_letsencrypt_use_staging: false
+
+# devture_traefik_config_letsencrypt_resolver_caServer specifies the CA server endpoint to use.
+devture_traefik_config_letsencrypt_resolver_caServer: "{{ 'https://acme-staging-v02.api.letsencrypt.org/directory' if devture_traefik_config_letsencrypt_use_staging else 'https://acme-v02.api.letsencrypt.org/directory' }}"
+
+
+# Default Traefik configuration template which covers the generic use case.
+# You can customize it by controlling the various variables inside it.
+#
+# For a more advanced customization, you can extend the default (see `devture_traefik_configuration_extension_yaml`)
+# or completely replace this variable with your own template.
+devture_traefik_configuration_yaml: "{{ lookup('template', 'templates/traefik.yml.j2') }}"
+
+devture_traefik_configuration_extension_yaml: |
+  # Your custom YAML configuration for Traefik goes here.
+  # This configuration extends the default starting configuration (`devture_traefik_configuration_yaml`).
+  #
+  # You can override individual variables from the default configuration, or introduce new ones.
+  #
+  # If you need something more special, you can take full control by
+  # completely redefining `devture_traefik_configuration_yaml`.
+  #
+  # Example configuration extension follows:
+  #
+  # api:
+  #   dashboard: true
+
+devture_traefik_configuration_extension: "{{ devture_traefik_configuration_extension_yaml | from_yaml if devture_traefik_configuration_extension_yaml | from_yaml is mapping else {} }}"
+
+# Holds the final Traefik configuration (a combination of the default and its extension).
+# You most likely don't need to touch this variable. Instead, see `devture_traefik_configuration_yaml`.
+devture_traefik_configuration: "{{ devture_traefik_configuration_yaml | from_yaml | combine(devture_traefik_configuration_extension, recursive=True) }}"
+
+# devture_traefik_environment_variables holds a string with environment variable to pass to Traefik.
+#
+# Example:
+# devture_traefik_environment_variables: |
+#   TRAEFIK_ACCESSLOG=true
+#   TRAEFIK_API=true
+devture_traefik_environment_variables: ''
