@@ -26,6 +26,8 @@ devture_traefik_config_letsencrypt_use_staging: false
 # devture_traefik_config_letsencrypt_resolver_caServer specifies the CA server endpoint to use.
 devture_traefik_config_letsencrypt_resolver_caServer: "{{ 'https://acme-staging-v02.api.letsencrypt.org/directory' if devture_traefik_config_letsencrypt_use_staging else 'https://acme-v02.api.letsencrypt.org/directory' }}"
 
+# devture_traefik_config_letsencrypt_httpChallenge_entrypoint controls on which entrypoint the HTTP ACME challenge is enabled.
+devture_traefik_config_letsencrypt_httpChallenge_entrypoint: 'web'
 
 # Default Traefik configuration template which covers the generic use case.
 # You can customize it by controlling the various variables inside it.

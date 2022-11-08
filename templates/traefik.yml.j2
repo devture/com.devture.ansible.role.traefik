@@ -29,6 +29,8 @@ certificatesResolvers:
       email: {{ devture_traefik_ssl_email_address | to_json }}
       storage: /ssl/acme.json
       caServer: {{ devture_traefik_config_letsencrypt_resolver_caServer | to_json }}
+      httpChallenge:
+        entrypoint: {{ devture_traefik_config_letsencrypt_httpChallenge_entrypoint | to_json }}
 
 providers:
   docker:
