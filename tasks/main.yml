@@ -11,3 +11,10 @@
     - setup-traefik
     - install-all
     - install-traefik
+
+- block:
+    - when: not devture_traefik_enabled | bool
+      ansible.builtin.include_tasks: "{{ role_path }}/tasks/setup_uninstall.yml"
+  tags:
+    - setup-all
+    - setup-traefik

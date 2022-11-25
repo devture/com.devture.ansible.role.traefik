@@ -1,0 +1,24 @@
+---
+
+- name: Check existence of Traefik systemd service
+  ansible.builtin.stat:
+    path: "{{ devture_systemd_docker_base_systemd_path }}/devture-traefik.service"
+  register: devture_traefik_service_stat
+
+- when: devture_traefik_service_stat.stat.exists | bool
+  block:
+    - name: Ensure Traefik is stopped
+      ansible.builtin.service:
+        name: devture-traefik
+        state: stopped
+        daemon_reload: true
+
+    - name: Ensure Traefik systemd service doesn't exist
+      ansible.builtin.file:
+        path: "{{ devture_systemd_docker_base_systemd_path }}/devture-traefik.service"
+        state: absent
+
+    - name: Remove Traefik directory is removed
+      ansible.builtin.file:
+        path: "{{ devture_traefik_base_path }}"
+        state: absent
