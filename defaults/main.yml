@@ -1,4 +1,7 @@
 ---
+# Project source code URL: https://github.com/traefik/traefik
+
+devture_traefik_enabled: true
 
 devture_traefik_base_path: "/devture-traefik"
 devture_traefik_config_dir_path: "{{ devture_traefik_base_path }}/config"

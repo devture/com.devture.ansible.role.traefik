@@ -13,11 +13,16 @@ Example playbook:
   roles:
     - role: galaxy/com.devture.ansible.role.systemd_docker_base
 
-    - when: my_playbook_traefik_installation_enabled | bool
-      role: galaxy/com.devture.ansible.role.traefik
-      tags:
-        - setup-traefik
-        - setup-all
+    - role: galaxy/com.devture.ansible.role.traefik
 
     - role: another_role
+```
+
+Example playbook configuration (`group_vars/servers` or other):
+
+```yaml
+devture_traefik_container_network: "{{ my_container_network }}"
+
+devture_traefik_uid: "{{ my_uid }}"
+devture_traefik_gid: "{{ my_gid }}"
 ```

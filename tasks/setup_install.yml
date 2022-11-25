@@ -33,14 +33,9 @@
     name: "{{ devture_traefik_container_image }}"
     source: "{{ 'pull' if ansible_version.major > 2 or ansible_version.minor > 7 else omit }}"
 
-- name: Ensure Traefik configuration installed
+- name: Ensure Traefik systemd service installed
   ansible.builtin.template:
     src: "{{ role_path }}/templates/devture-traefik.service.j2"
-    dest: "/etc/systemd/system/devture-traefik.service"
+    dest: "{{ devture_systemd_docker_base_systemd_path }}/devture-traefik.service"
     mode: 0640
-  register: devture_traefik_systemd_service_result
 
-- when: devture_traefik_systemd_service_result.changed
-  name: Ensure systemd reloaded after devture-traefik.service installation
-  ansible.builtin.service:
-    daemon_reload: true
