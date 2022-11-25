@@ -28,10 +28,14 @@
     group: "{{ devture_traefik_gid }}"
     mode: 0640
 
-- name: Ensure Traefik image is pulled
-  docker_image:
+- name: Ensure Traefik container image is pulled
+  community.docker.docker_image:
     name: "{{ devture_traefik_container_image }}"
     source: "{{ 'pull' if ansible_version.major > 2 or ansible_version.minor > 7 else omit }}"
+
+- name: Ensure Traefik container network exists
+  community.docker.docker_network:
+    name: "{{ devture_traefik_container_network }}"
 
 - name: Ensure Traefik systemd service installed
   ansible.builtin.template:
