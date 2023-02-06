@@ -83,12 +83,12 @@ devture_traefik_additional_entrypoints_custom: []
 # Specifies how the container publishes its web port
 #
 # Takes an "<ip>:<port>" value (e.g. "127.0.0.1:80"), just a port number or an empty string to not expose.
-devture_traefik_container_web_bind_port: "{{ devture_traefik_config_entrypoint_web_port if devture_traefik_config_entrypoint_web_enabled else '' }}"
+devture_traefik_container_web_host_bind_port: "{{ devture_traefik_config_entrypoint_web_port if devture_traefik_config_entrypoint_web_enabled else '' }}"
 
 # Specifies how the container publishes its web-secure port
 #
 # Takes an "<ip>:<port>" value (e.g. "127.0.0.1:443"), just a port number or an empty string to not expose.
-devture_traefik_container_web_secure_bind_port: "{{ devture_traefik_config_entrypoint_web_secure_port if devture_traefik_config_entrypoint_web_secure_enabled else '' }}"
+devture_traefik_container_web_secure_host_bind_port: "{{ devture_traefik_config_entrypoint_web_secure_port if devture_traefik_config_entrypoint_web_secure_enabled else '' }}"
 
 # Default Traefik configuration template which covers the generic use case.
 # You can customize it by controlling the various variables inside it.
