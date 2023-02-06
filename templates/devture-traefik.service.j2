@@ -17,8 +17,12 @@ ExecStart={{ devture_systemd_docker_base_host_command_docker }} run \
 			--name=devture-traefik \
 			--log-driver=none \
 			--network={{ devture_traefik_container_network }} \
-			-p 80:80 \
-			-p 443:443 \
+			{% if devture_traefik_container_web_bind_port %}
+			-p {{ devture_traefik_container_web_bind_port }}:{{ devture_traefik_config_entrypoint_web_port }} \
+			{% endif %}
+			{% if devture_traefik_container_web_secure_bind_port %}
+			-p {{ devture_traefik_container_web_secure_bind_port }}:{{ devture_traefik_config_entrypoint_web_secure_port }} \
+			{% endif %}
 			--env-file={{ devture_traefik_config_dir_path }}/env \
 			--mount type=bind,src={{ devture_traefik_config_dir_path }}/traefik.yml,dst=/traefik.yml,ro \
 			--mount type=bind,src={{ devture_traefik_ssl_dir_path }},dst=/ssl \

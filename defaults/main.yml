@@ -29,8 +29,39 @@ devture_traefik_config_letsencrypt_use_staging: false
 # devture_traefik_config_letsencrypt_resolver_caServer specifies the CA server endpoint to use.
 devture_traefik_config_letsencrypt_resolver_caServer: "{{ 'https://acme-staging-v02.api.letsencrypt.org/directory' if devture_traefik_config_letsencrypt_use_staging else 'https://acme-v02.api.letsencrypt.org/directory' }}"
 
+# Specifies the primary entrypoint.
+# We default to the web-secure entrypoint if it's enabled.
+# When web-secure is enabled, the web (80) entrypoint redirects to web-secure (443)
+devture_traefik_config_entrypoint_primary: "{{ devture_traefik_config_entrypoint_web_secure_name if devture_traefik_config_entrypoint_web_secure_enabled else devture_traefik_config_entrypoint_web_name }}"
+
+# Controls whether the web entrypoint is enabled
+devture_traefik_config_entrypoint_web_enabled: true
+devture_traefik_config_entrypoint_web_name: web
+devture_traefik_config_entrypoint_web_port: 80
+devture_traefik_config_entrypoint_web_address: ":{{ devture_traefik_config_entrypoint_web_port }}"
+
+# Controls whether the web entrypoint should be redirected to web-secure
+# If web-secure is enabled, we enable this redirection by default.
+devture_traefik_config_entrypoint_web_to_web_secure_redirection_enabled: "{{ devture_traefik_config_entrypoint_web_secure_enabled }}"
+
+# Controls whether the web-secure entrypoint is enabled
+devture_traefik_config_entrypoint_web_secure_enabled: true
+devture_traefik_config_entrypoint_web_secure_name: web-secure
+devture_traefik_config_entrypoint_web_secure_port: 443
+devture_traefik_config_entrypoint_web_secure_address: ":{{ devture_traefik_config_entrypoint_web_secure_port }}"
+
 # devture_traefik_config_letsencrypt_httpChallenge_entrypoint controls on which entrypoint the HTTP ACME challenge is enabled.
 devture_traefik_config_letsencrypt_httpChallenge_entrypoint: 'web'
+
+# Specifies how the container publishes its web port
+#
+# Takes an "<ip>:<port>" value (e.g. "127.0.0.1:80"), just a port number or an empty string to not expose.
+devture_traefik_container_web_bind_port: "{{ devture_traefik_config_entrypoint_web_port if devture_traefik_config_entrypoint_web_enabled else '' }}"
+
+# Specifies how the container publishes its web-secure port
+#
+# Takes an "<ip>:<port>" value (e.g. "127.0.0.1:443"), just a port number or an empty string to not expose.
+devture_traefik_container_web_secure_bind_port: "{{ devture_traefik_config_entrypoint_web_secure_port if devture_traefik_config_entrypoint_web_secure_enabled else '' }}"
 
 # Default Traefik configuration template which covers the generic use case.
 # You can customize it by controlling the various variables inside it.

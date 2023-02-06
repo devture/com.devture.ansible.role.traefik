@@ -1,3 +1,4 @@
+#jinja2: lstrip_blocks: "True"
 # https://doc.traefik.io/traefik/reference/static-configuration/file/
 #
 # To extend this:
@@ -13,15 +14,24 @@ log:
 accessLog: {}
 
 entryPoints:
+
+{% if devture_traefik_config_entrypoint_web_enabled %}
   web:
-    address: ":80"
+    address: {{ devture_traefik_config_entrypoint_web_address | to_json }}
+
+    {% if devture_traefik_config_entrypoint_web_to_web_secure_redirection_enabled %}
     http:
       redirections:
         entryPoint:
-          to: web-secure
+          to: {{ devture_traefik_config_entrypoint_web_secure_name }}
           scheme: https
-  web-secure:
-    address: ":443"
+    {% endif %}
+{% endif %}
+
+{% if devture_traefik_config_entrypoint_web_secure_enabled %}
+  {{ devture_traefik_config_entrypoint_web_secure_name }}:
+    address: {{ devture_traefik_config_entrypoint_web_secure_address | to_json }}
+{% endif %}
 
 certificatesResolvers:
   default:
