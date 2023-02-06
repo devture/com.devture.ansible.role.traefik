@@ -53,6 +53,33 @@ devture_traefik_config_entrypoint_web_secure_address: ":{{ devture_traefik_confi
 # devture_traefik_config_letsencrypt_httpChallenge_entrypoint controls on which entrypoint the HTTP ACME challenge is enabled.
 devture_traefik_config_letsencrypt_httpChallenge_entrypoint: 'web'
 
+# A list of additional entrypoints.
+#
+# Playbooks are meant to inject their defaults into `devture_traefik_additional_entrypoints_auto`.
+# To define your own custom entrypoints, use `devture_traefik_additional_entrypoints_custom`.
+#
+# Each entrypoint must be defined with the following parameters:
+# - name: the name of the entrypoint
+# - port: the port number used for the entrypoint within the Traefik continer
+# - host_bind_port: the port number (e.g. 1234) or interface + port (0.0.0.0:1234) where the container will publish the port
+# - config: a mapping with additional configuration options for the entrypoint
+#
+# Example:
+# devture_traefik_additional_entrypoints:
+#   - name: new-entrypoint
+#     port: 1234
+#     host_bind_port: 1234
+#     config: {}
+#   - name: another-entrypoint
+#     port: 4321
+#     host_bind_port: 127.0.0.1:4321
+#     config:
+#       http2:
+#         maxConcurrentStreams: 250
+devture_traefik_additional_entrypoints: "{{ devture_traefik_additional_entrypoints_auto + devture_traefik_additional_entrypoints_custom }}"
+devture_traefik_additional_entrypoints_auto: []
+devture_traefik_additional_entrypoints_custom: []
+
 # Specifies how the container publishes its web port
 #
 # Takes an "<ip>:<port>" value (e.g. "127.0.0.1:80"), just a port number or an empty string to not expose.

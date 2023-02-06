@@ -33,6 +33,15 @@ entryPoints:
     address: {{ devture_traefik_config_entrypoint_web_secure_address | to_json }}
 {% endif %}
 
+{% for additional_entrypoint in devture_traefik_additional_entrypoints %}
+  {% set additional_entrypoint_config = ({
+	  'address': ':' + (additional_entrypoint.port | string),
+    }) | combine(additional_entrypoint.config)
+  %}
+
+  {{ additional_entrypoint.name }}: {{ additional_entrypoint_config | to_json }}
+{% endfor %}
+
 certificatesResolvers:
   default:
     acme:
