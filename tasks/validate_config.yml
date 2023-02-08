@@ -9,3 +9,21 @@
     - devture_traefik_ssl_email_address
     - devture_traefik_uid
     - devture_traefik_gid
+
+- name: Fail if required Traefik Dashboard settings not defined
+  fail:
+    msg: >-
+      You need to define a required configuration setting (`{{ item }}`) for using Basic Auth.
+  when: "devture_traefik_dashboard_enabled | bool and vars[item] == ''"
+  with_items:
+    - devture_traefik_dashboard_hostname
+    - devture_traefik_dashboard_entryPoints
+
+- name: Fail if required Traefik Dashboard Basic Auth settings not defined
+  fail:
+    msg: >-
+      You need to define a required configuration setting (`{{ item }}`) for using Basic Auth.
+  when: "devture_traefik_dashboard_basicauth_enabled | bool and vars[item] == ''"
+  with_items:
+    - devture_traefik_dashboard_basicauth_user
+    - devture_traefik_dashboard_basicauth_password

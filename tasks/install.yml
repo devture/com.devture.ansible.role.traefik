@@ -12,6 +12,35 @@
     - "{{ devture_traefik_config_dir_path }}"
     - "{{ devture_traefik_ssl_dir_path }}"
 
+- when: devture_traefik_dashboard_basicauth_enabled | bool
+  block:
+    # We do this locally, so that we won't need passlib to be installed on the server.
+    - name: Generate basic auth file locally
+      community.general.htpasswd:
+        path: "{{ devture_traefik_dashboard_basicauth_file_tmp }}"
+        name: "{{ devture_traefik_dashboard_basicauth_user }}"
+        password: "{{ devture_traefik_dashboard_basicauth_password }}"
+      become: false
+      delegate_to: 127.0.0.1
+
+    - name: Load basic auth file contents
+      ansible.builtin.slurp:
+        src: "{{ devture_traefik_dashboard_basicauth_file_tmp }}"
+      become: false
+      delegate_to: 127.0.0.1
+      register: devture_traefik_dashboard_basicauth_file_contents_raw
+
+    - name: Load basic auth file contents
+      ansible.builtin.set_fact:
+        devture_traefik_dashboard_basicauth_file_contents: "{{ devture_traefik_dashboard_basicauth_file_contents_raw['content'] | b64decode }}"
+
+    - name: Ensure local temporary basic auth file is removed
+      ansible.builtin.file:
+        path: "{{ devture_traefik_dashboard_basicauth_file_tmp }}"
+        state: absent
+      become: false
+      delegate_to: 127.0.0.1
+
 - name: Ensure Traefik environment variables installed
   ansible.builtin.copy:
     content: "{{ devture_traefik_environment_variables }}"

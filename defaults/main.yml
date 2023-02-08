@@ -53,6 +53,37 @@ devture_traefik_config_entrypoint_web_secure_address: ":{{ devture_traefik_confi
 # devture_traefik_config_letsencrypt_httpChallenge_entrypoint controls on which entrypoint the HTTP ACME challenge is enabled.
 devture_traefik_config_letsencrypt_httpChallenge_entrypoint: 'web'
 
+# devture_traefik_config_api_dashboard controls the api.dashboard configuration setting,
+# which controls whether the dashboard is enabled.
+# See: devture_traefik_dashboard_enabled
+devture_traefik_config_api_dashboard: "{{ devture_traefik_dashboard_enabled }}"
+
+# devture_traefik_dashboard_enabled controls whether the Dashboard is enabled.
+# See: https://doc.traefik.io/traefik/operations/dashboard/
+devture_traefik_dashboard_enabled: false
+
+# The hostname where the Traefik Dashboard will be exposed on.
+# The Dashboard will be available at https://HOSTNAME/dashboard/ (note the trailing slash).
+devture_traefik_dashboard_hostname: ''
+
+# devture_traefik_dashboard_rule controls where the Traefik Dashboard will be exposed.
+# See: devture_traefik_dashboard_enabled, devture_traefik_dashboard_hostname
+devture_traefik_dashboard_rule: "Host(`{{ devture_traefik_dashboard_hostname }}`) && (PathPrefix(`/api`) || PathPrefix(`/dashboard`))"
+
+# Specifies the entrypoints through which the Traefik Dashboard will be exposed.
+devture_traefik_dashboard_entryPoints: "{{ devture_traefik_config_entrypoint_web_secure_name if devture_traefik_config_entrypoint_web_secure_enabled else (devture_traefik_config_entrypoint_web_name if devture_traefik_config_entrypoint_web_enabled else '') }}"  # noqa var-naming
+
+devture_traefik_dashboard_tls: "{{ devture_traefik_dashboard_entryPoints != 'web' }}"
+devture_traefik_dashboard_tls_certResolver: default  # noqa var-naming
+
+# devture_traefik_dashboard_basicauth_enabled controls if the dashboard is protected with Basic Auth.
+# When the Dashboard is enabled, we automatically enable Basic Auth.
+devture_traefik_dashboard_basicauth_enabled: "{{ devture_traefik_dashboard_enabled }}"
+devture_traefik_dashboard_basicauth_user: ''
+devture_traefik_dashboard_basicauth_password: ''
+# Temporary file name on the host that runs Ansible
+devture_traefik_dashboard_basicauth_file_tmp: "/tmp/ansible-htpasswd-devture-traefik"
+
 # A list of additional entrypoints.
 #
 # Playbooks are meant to inject their defaults into `devture_traefik_additional_entrypoints_auto`.

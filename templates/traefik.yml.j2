@@ -13,6 +13,9 @@ log:
 
 accessLog: {}
 
+api:
+  dashboard: {{ devture_traefik_config_api_dashboard | to_json }}
+
 entryPoints:
 
 {% if devture_traefik_config_entrypoint_web_enabled %}
