@@ -80,6 +80,26 @@ devture_traefik_additional_entrypoints: "{{ devture_traefik_additional_entrypoin
 devture_traefik_additional_entrypoints_auto: []
 devture_traefik_additional_entrypoints_custom: []
 
+# A list of additional domains that this role should obtain certificates for.
+#
+# For each domain in the list, a dummy router like this would be added to the configuration:
+#  http:
+#    routers:
+#      example.com-dummy:
+#        rule: Host(`example.coma`)
+#        tls:
+#          certResolver: default
+#
+# This router does not forward traffic to any service.
+# The goal is to just obtain the certificate and allow it to be used for other purposes,
+# after extracting it out of Traefik via traefik-certs-dumper (https://github.com/ldez/traefik-certs-dumper).
+# For extracting certificates out using this tool, see this role: https://github.com/devture/com.devture.ansible.role.traefik_certs_dumper
+devture_traefik_additional_domains_to_obtain_certificates_for: []
+
+# Specifies the certitficate resolver to use when obtaining additional certificates.
+# See: devture_traefik_additional_domains_to_obtain_certificates_for
+devture_traefik_additional_domains_to_obtain_certificates_for_certResolver: default  #noqa
+
 # Specifies how the container publishes its web port
 #
 # Takes an "<ip>:<port>" value (e.g. "127.0.0.1:80"), just a port number or an empty string to not expose.

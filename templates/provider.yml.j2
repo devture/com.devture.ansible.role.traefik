@@ -1,0 +1,10 @@
+#jinja2: lstrip_blocks: "True"
+
+http:
+  routers:
+    {% for domain in devture_traefik_additional_domains_to_obtain_certificates_for %}
+      {{ domain }}-dummy:
+        rule: Host(`{{ domain }}`)
+        tls:
+          certResolver: {{ devture_traefik_additional_domains_to_obtain_certificates_for_certResolver | to_json }}
+	{% endfor %}

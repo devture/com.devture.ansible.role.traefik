@@ -27,14 +27,14 @@ ExecStart={{ devture_systemd_docker_base_host_command_docker }} run \
 			-p {{ additional_entrypoint.host_bind_port }}:{{ additional_entrypoint.port }} \
 			{% endfor %}
 			--env-file={{ devture_traefik_config_dir_path }}/env \
-			--mount type=bind,src={{ devture_traefik_config_dir_path }}/traefik.yml,dst=/traefik.yml,ro \
+			--mount type=bind,src={{ devture_traefik_config_dir_path }},dst=/config,ro \
 			--mount type=bind,src={{ devture_traefik_ssl_dir_path }},dst=/ssl \
 			--mount type=bind,src=/var/run/docker.sock,dst=/var/run/docker.sock,ro \
 			{{ devture_traefik_container_image }} \
 			{% if devture_traefik_container_extra_arguments | length > 0 %}
 			{{ devture_traefik_container_extra_arguments | join(" ") }} \
 			{% endif %}
-			--configFile=/traefik.yml
+			--configFile=/config/traefik.yml
 
 ExecStop=-{{ devture_systemd_docker_base_host_command_sh }} -c '{{ devture_systemd_docker_base_host_command_docker }} kill devture-traefik 2>/dev/null || true'
 ExecStop=-{{ devture_systemd_docker_base_host_command_sh }} -c '{{ devture_systemd_docker_base_host_command_docker }} rm devture-traefik 2>/dev/null || true'

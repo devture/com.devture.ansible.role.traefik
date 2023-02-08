@@ -28,6 +28,14 @@
     group: "{{ devture_traefik_gid }}"
     mode: 0640
 
+- name: Ensure provider.yml installed
+  ansible.builtin.template:
+    src: "{{ role_path }}/templates/provider.yml.j2"
+    dest: "{{ devture_traefik_config_dir_path }}/provider.yml"
+    owner: "{{ devture_traefik_uid }}"
+    group: "{{ devture_traefik_gid }}"
+    mode: 0640
+
 - name: Ensure Traefik container image is pulled
   community.docker.docker_image:
     name: "{{ devture_traefik_container_image }}"
