@@ -6,6 +6,7 @@ http:
       {{ domain }}-dummy:
         rule: Host(`{{ domain }}`)
         service: noop@internal
+        entryPoints: {{ devture_traefik_additional_domains_to_obtain_certificates_for_entryPoints | to_json }}
         tls:
           certResolver: {{ devture_traefik_additional_domains_to_obtain_certificates_for_certResolver | to_json }}
 	{% endfor %}

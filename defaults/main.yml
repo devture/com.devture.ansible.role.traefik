@@ -96,6 +96,9 @@ devture_traefik_additional_entrypoints_custom: []
 # For extracting certificates out using this tool, see this role: https://github.com/devture/com.devture.ansible.role.traefik_certs_dumper
 devture_traefik_additional_domains_to_obtain_certificates_for: []
 
+# Specifies the entrypoints through which the additional domains will be exposed.
+devture_traefik_additional_domains_to_obtain_certificates_for_entryPoints: "{{ devture_traefik_config_entrypoint_web_secure_name if devture_traefik_config_entrypoint_web_secure_enabled else (devture_traefik_config_entrypoint_web_name if devture_traefik_config_entrypoint_web_enabled else '') }}"  # noqa var-naming
+
 # Specifies the certitficate resolver to use when obtaining additional certificates.
 # See: devture_traefik_additional_domains_to_obtain_certificates_for
 devture_traefik_additional_domains_to_obtain_certificates_for_certResolver: default  #noqa
