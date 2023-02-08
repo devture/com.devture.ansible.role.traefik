@@ -27,6 +27,7 @@ ExecStart={{ devture_systemd_docker_base_host_command_docker }} run \
 			-p {{ additional_entrypoint.host_bind_port }}:{{ additional_entrypoint.port }} \
 			{% endfor %}
 			--env-file={{ devture_traefik_config_dir_path }}/env \
+			--label-file={{ devture_traefik_config_dir_path }}/labels \
 			--mount type=bind,src={{ devture_traefik_config_dir_path }},dst=/config,ro \
 			--mount type=bind,src={{ devture_traefik_ssl_dir_path }},dst=/ssl \
 			--mount type=bind,src=/var/run/docker.sock,dst=/var/run/docker.sock,ro \

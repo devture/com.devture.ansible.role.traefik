@@ -147,3 +147,12 @@ devture_traefik_configuration: "{{ devture_traefik_configuration_yaml | from_yam
 #   TRAEFIK_ACCESSLOG=true
 #   TRAEFIK_API=true
 devture_traefik_environment_variables: ''
+
+# devture_traefik_labels_additional_labels contains a multiline string with additional labels to add to the container label file.
+# See `../templates/labels.j2` for details.
+#
+# Example:
+# devture_traefik_labels_additional_labels: |
+#   my.label=1
+#   another.label="here"
+devture_traefik_labels_additional_labels: ''
