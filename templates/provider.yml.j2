@@ -1,10 +1,16 @@
 #jinja2: lstrip_blocks: "True"
 
 http:
+  services:
+    dummy:
+      loadBalancer:
+        servers:
+          - url: http://127.0.0.1
   routers:
     {% for domain in devture_traefik_additional_domains_to_obtain_certificates_for %}
       {{ domain }}-dummy:
         rule: Host(`{{ domain }}`)
+        service: dummy
         tls:
           certResolver: {{ devture_traefik_additional_domains_to_obtain_certificates_for_certResolver | to_json }}
 	{% endfor %}
