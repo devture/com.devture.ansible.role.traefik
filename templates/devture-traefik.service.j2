@@ -34,7 +34,7 @@ ExecStart={{ devture_systemd_docker_base_host_command_docker }} run \
 			{% if devture_traefik_container_extra_arguments | length > 0 %}
 			{{ devture_traefik_container_extra_arguments | join(" ") }} \
 			{% endif %}
-			--providers.file.filename=/traefik.yml
+			--configFile=/traefik.yml
 
 ExecStop=-{{ devture_systemd_docker_base_host_command_sh }} -c '{{ devture_systemd_docker_base_host_command_docker }} kill devture-traefik 2>/dev/null || true'
 ExecStop=-{{ devture_systemd_docker_base_host_command_sh }} -c '{{ devture_systemd_docker_base_host_command_docker }} rm devture-traefik 2>/dev/null || true'
