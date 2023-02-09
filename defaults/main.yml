@@ -32,7 +32,7 @@ devture_traefik_config_letsencrypt_resolver_caServer: "{{ 'https://acme-staging-
 # Specifies the primary entrypoint.
 # We default to the web-secure entrypoint if it's enabled.
 # When web-secure is enabled, the web (80) entrypoint redirects to web-secure (443)
-devture_traefik_config_entrypoint_primary: "{{ devture_traefik_config_entrypoint_web_secure_name if devture_traefik_config_entrypoint_web_secure_enabled else devture_traefik_config_entrypoint_web_name }}"
+devture_traefik_entrypoint_primary: "{{ devture_traefik_config_entrypoint_web_secure_name if devture_traefik_config_entrypoint_web_secure_enabled else (devture_traefik_config_entrypoint_web_name if devture_traefik_config_entrypoint_web_enabled else '') }}"
 
 # Controls whether the web entrypoint is enabled
 devture_traefik_config_entrypoint_web_enabled: true
@@ -71,7 +71,7 @@ devture_traefik_dashboard_hostname: ''
 devture_traefik_dashboard_rule: "Host(`{{ devture_traefik_dashboard_hostname }}`) && (PathPrefix(`/api`) || PathPrefix(`/dashboard`))"
 
 # Specifies the entrypoints through which the Traefik Dashboard will be exposed.
-devture_traefik_dashboard_entryPoints: "{{ devture_traefik_config_entrypoint_web_secure_name if devture_traefik_config_entrypoint_web_secure_enabled else (devture_traefik_config_entrypoint_web_name if devture_traefik_config_entrypoint_web_enabled else '') }}"  # noqa var-naming
+devture_traefik_dashboard_entryPoints: "{{ devture_traefik_entrypoint_primary }}"  # noqa var-naming
 
 devture_traefik_dashboard_tls: "{{ devture_traefik_dashboard_entryPoints != 'web' }}"
 devture_traefik_dashboard_tls_certResolver: default  # noqa var-naming

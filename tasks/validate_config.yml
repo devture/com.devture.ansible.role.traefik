@@ -9,6 +9,7 @@
     - devture_traefik_ssl_email_address
     - devture_traefik_uid
     - devture_traefik_gid
+    - devture_traefik_entrypoint_primary
 
 - name: Fail if required Traefik Dashboard settings not defined
   fail:
