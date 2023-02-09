@@ -71,9 +71,9 @@ devture_traefik_dashboard_hostname: ''
 devture_traefik_dashboard_rule: "Host(`{{ devture_traefik_dashboard_hostname }}`) && (PathPrefix(`/api`) || PathPrefix(`/dashboard`))"
 
 # Specifies the entrypoints through which the Traefik Dashboard will be exposed.
-devture_traefik_dashboard_entryPoints: "{{ devture_traefik_entrypoint_primary }}"  # noqa var-naming
+devture_traefik_dashboard_entrypoints: "{{ devture_traefik_entrypoint_primary }}"  # noqa var-naming
 
-devture_traefik_dashboard_tls: "{{ devture_traefik_dashboard_entryPoints != 'web' }}"
+devture_traefik_dashboard_tls: "{{ devture_traefik_dashboard_entrypoints != 'web' }}"
 devture_traefik_dashboard_tls_certResolver: default  # noqa var-naming
 
 # devture_traefik_dashboard_basicauth_enabled controls if the dashboard is protected with Basic Auth.

@@ -22,7 +22,7 @@ http:
       traefik-dashboard:
         rule: {{ devture_traefik_dashboard_rule | to_json }}
         service: api@internal
-        entryPoints: {{ devture_traefik_dashboard_entryPoints | to_json }}
+        entryPoints: {{ devture_traefik_dashboard_entrypoints | to_json }}
         {% if devture_traefik_dashboard_tls %}
         tls:
           certResolver: {{ devture_traefik_dashboard_tls_certResolver | to_json }}

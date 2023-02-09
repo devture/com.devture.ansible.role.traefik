@@ -18,7 +18,7 @@
   when: "devture_traefik_dashboard_enabled | bool and vars[item] == ''"
   with_items:
     - devture_traefik_dashboard_hostname
-    - devture_traefik_dashboard_entryPoints
+    - devture_traefik_dashboard_entrypoints
 
 - name: Fail if required Traefik Dashboard Basic Auth settings not defined
   fail:
