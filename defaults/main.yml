@@ -132,7 +132,7 @@ devture_traefik_additional_domains_to_obtain_certificates_for_entryPoints: "{{ d
 
 # Specifies the certitficate resolver to use when obtaining additional certificates.
 # See: devture_traefik_additional_domains_to_obtain_certificates_for
-devture_traefik_additional_domains_to_obtain_certificates_for_certResolver: default  #noqa
+devture_traefik_additional_domains_to_obtain_certificates_for_certResolver: default
 
 # Specifies how the container publishes its web port
 #

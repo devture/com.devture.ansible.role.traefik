@@ -20,6 +20,7 @@
         path: "{{ devture_traefik_dashboard_basicauth_file_tmp }}"
         name: "{{ devture_traefik_dashboard_basicauth_user }}"
         password: "{{ devture_traefik_dashboard_basicauth_password }}"
+        mode: 0640
       become: false
       delegate_to: 127.0.0.1
 
@@ -76,7 +77,7 @@
 - name: Ensure Traefik container image is pulled
   community.docker.docker_image:
     name: "{{ devture_traefik_container_image }}"
-    source: "{{ 'pull' if ansible_version.major > 2 or ansible_version.minor > 7 else omit }}"
+    source: "{{ 'pull' if ansible_version.major > 2 or ansible_version.minor > 7 else omit }}"  # noqa args
 
 - name: Ensure Traefik container network exists
   community.docker.docker_network:
@@ -87,4 +88,3 @@
     src: "{{ role_path }}/templates/devture-traefik.service.j2"
     dest: "{{ devture_systemd_docker_base_systemd_path }}/devture-traefik.service"
     mode: 0644
-
