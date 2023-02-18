@@ -8,7 +8,7 @@
 - when: devture_traefik_service_stat.stat.exists | bool
   block:
     - name: Ensure Traefik is stopped
-      ansible.builtin.service:
+      ansible.builtin.systemd:
         name: devture-traefik
         state: stopped
         daemon_reload: true

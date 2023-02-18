@@ -1,7 +1,7 @@
 ---
 
 - name: Fail if required Traefik settings not defined
-  fail:
+  ansible.builtin.fail:
     msg: >-
       You need to define a required configuration setting (`{{ item }}`) for using this role.
   when: "vars[item] == ''"
@@ -12,7 +12,7 @@
     - devture_traefik_entrypoint_primary
 
 - name: Fail if required Traefik Dashboard settings not defined
-  fail:
+  ansible.builtin.fail:
     msg: >-
       You need to define a required configuration setting (`{{ item }}`) for using Basic Auth.
   when: "devture_traefik_dashboard_enabled | bool and vars[item] == ''"
@@ -21,7 +21,7 @@
     - devture_traefik_dashboard_entrypoints
 
 - name: Fail if required Traefik Dashboard Basic Auth settings not defined
-  fail:
+  ansible.builtin.fail:
     msg: >-
       You need to define a required configuration setting (`{{ item }}`) for using Basic Auth.
   when: "devture_traefik_dashboard_basicauth_enabled | bool and vars[item] == ''"
