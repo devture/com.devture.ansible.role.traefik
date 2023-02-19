@@ -45,6 +45,7 @@ entryPoints:
   {{ additional_entrypoint.name }}: {{ additional_entrypoint_config | to_json }}
 {% endfor %}
 
+{% if devture_traefik_config_entrypoint_web_secure_enabled %}
 certificatesResolvers:
   default:
     acme:
@@ -53,6 +54,7 @@ certificatesResolvers:
       caServer: {{ devture_traefik_config_letsencrypt_resolver_caServer | to_json }}
       httpChallenge:
         entrypoint: {{ devture_traefik_config_letsencrypt_httpChallenge_entrypoint | to_json }}
+{% endif %}
 
 providers:
   docker:
