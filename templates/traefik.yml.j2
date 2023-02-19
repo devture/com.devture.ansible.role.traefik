@@ -46,13 +46,16 @@ entryPoints:
 {% endfor %}
 
 certificatesResolvers:
-  default:
+
+{% if devture_traefik_config_certificatesResolvers_acme_enabled %}
+  {{ devture_traefik_config_certificatesResolvers_acme_name }}:
     acme:
-      email: {{ devture_traefik_ssl_email_address | to_json }}
-      storage: /ssl/acme.json
-      caServer: {{ devture_traefik_config_letsencrypt_resolver_caServer | to_json }}
+      email: {{ devture_traefik_config_certificatesResolvers_acme_email | to_json }}
+      storage: {{ devture_traefik_config_certificatesResolvers_acme_storage | to_json }}
+      caServer: {{ devture_traefik_config_certificatesResolvers_acme_caServer | to_json }}
       httpChallenge:
-        entrypoint: {{ devture_traefik_config_letsencrypt_httpChallenge_entrypoint | to_json }}
+        entrypoint: {{ devture_traefik_config_certificatesResolvers_acme_httpChallenge_entrypoint | to_json }}
+{% endif %}
 
 providers:
   docker:

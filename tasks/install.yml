@@ -2,15 +2,19 @@
 
 - name: Ensure Traefik paths exist
   ansible.builtin.file:
-    path: "{{ item }}"
+    path: "{{ item.path }}"
     state: directory
     mode: "0750"
     owner: "{{ devture_traefik_uid }}"
     group: "{{ devture_traefik_gid }}"
+  when: item.when | bool
   with_items:
-    - "{{ devture_traefik_base_path }}"
-    - "{{ devture_traefik_config_dir_path }}"
-    - "{{ devture_traefik_ssl_dir_path }}"
+    - path: "{{ devture_traefik_base_path }}"
+      when: true
+    - path: "{{ devture_traefik_config_dir_path }}"
+      when: true
+    - path: "{{ devture_traefik_ssl_dir_path }}"
+      when: "{{ devture_traefik_ssl_dir_enabled }}"
 
 - when: devture_traefik_dashboard_basicauth_enabled | bool
   block:
