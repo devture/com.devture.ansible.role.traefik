@@ -23,6 +23,9 @@ devture_traefik_gid: ~
 
 devture_traefik_config_log_level: INFO
 
+# Controls whether logs for incoming requests are collected
+devture_traefik_config_accessLog_enabled: true
+
 # Controls whether the ACME (https://en.wikipedia.org/wiki/Automatic_Certificate_Management_Environment) certificate resolver is enabled.
 # By default, if the web-secure entrypoint is enabled, we enable Let's Encrypt.
 devture_traefik_config_certificatesResolvers_acme_enabled: "{{ devture_traefik_config_entrypoint_web_secure_enabled }}"

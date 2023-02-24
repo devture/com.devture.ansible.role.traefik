@@ -11,7 +11,9 @@ global:
 log:
   level: {{ devture_traefik_config_log_level | to_json }}
 
+{% if devture_traefik_config_accessLog_enabled %}
 accessLog: {}
+{% endif %}
 
 api:
   dashboard: {{ devture_traefik_config_api_dashboard | to_json }}
