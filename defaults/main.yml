@@ -35,7 +35,7 @@ devture_traefik_config_certificatesResolvers_acme_storage: /ssl/acme.json # in-c
 # devture_traefik_config_certificatesResolvers_acme_use_staging controls whether the Let's Encrypt staging environment is used or not.
 devture_traefik_config_certificatesResolvers_acme_use_staging: false
 # devture_traefik_config_certificatesResolvers_acme_caServer specifies the CA server endpoint to use.
-devture_traefik_config_certificatesResolvers_acme_caServer: "{{ ' https://acme-staging-v02.api.letsencrypt.org/directory' if devture_traefik_config_certificatesResolvers_acme_use_staging else 'https://acme-v02.api.letsencrypt.org/directory' }}"
+devture_traefik_config_certificatesResolvers_acme_caServer: "{{ 'https://acme-staging-v02.api.letsencrypt.org/directory' if devture_traefik_config_certificatesResolvers_acme_use_staging else 'https://acme-v02.api.letsencrypt.org/directory' }}"
 # devture_traefik_config_certificatesResolvers_acme_httpChallenge_entrypoint controls on which entrypoint the HTTP ACME challenge is enabled.
 devture_traefik_config_certificatesResolvers_acme_httpChallenge_entrypoint: "{{ devture_traefik_config_entrypoint_web_name if devture_traefik_config_entrypoint_web_enabled else '' }}"
 
@@ -98,7 +98,7 @@ devture_traefik_dashboard_basicauth_file_tmp: "/tmp/ansible-htpasswd-devture-tra
 #
 # Each entrypoint must be defined with the following parameters:
 # - name: the name of the entrypoint
-# - port: the port number used for the entrypoint within the Traefik continer
+# - port: the port number used for the entrypoint within the Traefik container
 # - host_bind_port: the port number (e.g. 1234) or interface + port (0.0.0.0:1234) where the container will publish the port
 # - config: a mapping with additional configuration options for the entrypoint
 #
