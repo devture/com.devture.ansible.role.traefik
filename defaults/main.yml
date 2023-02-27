@@ -21,6 +21,15 @@ devture_traefik_container_extra_arguments: []
 devture_traefik_uid: ~
 devture_traefik_gid: ~
 
+# Specifies the primary entrypoint.
+# We default to the web-secure entrypoint if it's enabled.
+# When web-secure is enabled, the web (80) entrypoint redirects to web-secure (443)
+devture_traefik_entrypoint_primary: "{{ devture_traefik_config_entrypoint_web_secure_name if devture_traefik_config_entrypoint_web_secure_enabled else (devture_traefik_config_entrypoint_web_name if devture_traefik_config_entrypoint_web_enabled else '') }}"
+
+# Specifies the primary certificate resolver.
+# If you're disabling ACME or using your own, you can specify it here manually.
+devture_traefik_certResolver_primary: "{{ devture_traefik_config_certificatesResolvers_acme_name if devture_traefik_config_certificatesResolvers_acme_enabled else '' }}"
+
 devture_traefik_config_log_level: INFO
 
 # Controls whether logs for incoming requests are collected
@@ -38,11 +47,6 @@ devture_traefik_config_certificatesResolvers_acme_use_staging: false
 devture_traefik_config_certificatesResolvers_acme_caServer: "{{ 'https://acme-staging-v02.api.letsencrypt.org/directory' if devture_traefik_config_certificatesResolvers_acme_use_staging else 'https://acme-v02.api.letsencrypt.org/directory' }}"
 # devture_traefik_config_certificatesResolvers_acme_httpChallenge_entrypoint controls on which entrypoint the HTTP ACME challenge is enabled.
 devture_traefik_config_certificatesResolvers_acme_httpChallenge_entrypoint: "{{ devture_traefik_config_entrypoint_web_name if devture_traefik_config_entrypoint_web_enabled else '' }}"
-
-# Specifies the primary entrypoint.
-# We default to the web-secure entrypoint if it's enabled.
-# When web-secure is enabled, the web (80) entrypoint redirects to web-secure (443)
-devture_traefik_entrypoint_primary: "{{ devture_traefik_config_entrypoint_web_secure_name if devture_traefik_config_entrypoint_web_secure_enabled else (devture_traefik_config_entrypoint_web_name if devture_traefik_config_entrypoint_web_enabled else '') }}"
 
 # Controls whether the web entrypoint is enabled
 devture_traefik_config_entrypoint_web_enabled: true
@@ -81,7 +85,7 @@ devture_traefik_dashboard_rule: "Host(`{{ devture_traefik_dashboard_hostname }}`
 devture_traefik_dashboard_entrypoints: "{{ devture_traefik_entrypoint_primary }}"  # noqa var-naming
 
 devture_traefik_dashboard_tls: "{{ devture_traefik_dashboard_entrypoints != 'web' }}"
-devture_traefik_dashboard_tls_certResolver: default  # noqa var-naming
+devture_traefik_dashboard_tls_certResolver: "{{ devture_traefik_certResolver_primary }}"  # noqa var-naming
 
 # devture_traefik_dashboard_basicauth_enabled controls if the dashboard is protected with Basic Auth.
 # When the Dashboard is enabled, we automatically enable Basic Auth.
@@ -139,7 +143,7 @@ devture_traefik_additional_domains_to_obtain_certificates_for_entryPoints: "{{ d
 
 # Specifies the certitficate resolver to use when obtaining additional certificates.
 # See: devture_traefik_additional_domains_to_obtain_certificates_for
-devture_traefik_additional_domains_to_obtain_certificates_for_certResolver: default
+devture_traefik_additional_domains_to_obtain_certificates_for_certResolver: "{{ devture_traefik_certResolver_primary }}"
 
 # Specifies how the container publishes its web port
 #
