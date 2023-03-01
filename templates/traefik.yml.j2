@@ -24,6 +24,16 @@ entryPoints:
   web:
     address: {{ devture_traefik_config_entrypoint_web_address | to_json }}
 
+    {% if devture_traefik_config_entrypoint_web_forwardedHeaders_enabled %}
+    forwardedHeaders:
+      {% if devture_traefik_config_entrypoint_web_forwardedHeaders_trustedIPs | length > 0 %}
+      trustedIPs: {{ devture_traefik_config_entrypoint_web_forwardedHeaders_trustedIPs | to_json }}
+      {% endif %}
+      {% if devture_traefik_config_entrypoint_web_forwardedHeaders_insecure %}
+      insecure: true
+      {% endif %}
+    {% endif %}
+
     {% if devture_traefik_config_entrypoint_web_to_web_secure_redirection_enabled %}
     http:
       redirections:
@@ -36,6 +46,16 @@ entryPoints:
 {% if devture_traefik_config_entrypoint_web_secure_enabled %}
   {{ devture_traefik_config_entrypoint_web_secure_name }}:
     address: {{ devture_traefik_config_entrypoint_web_secure_address | to_json }}
+
+    {% if devture_traefik_config_entrypoint_web_secure_forwardedHeaders_enabled %}
+    forwardedHeaders:
+      {% if devture_traefik_config_entrypoint_web_secure_forwardedHeaders_trustedIPs | length > 0 %}
+      trustedIPs: {{ devture_traefik_config_entrypoint_web_secure_forwardedHeaders_trustedIPs | to_json }}
+      {% endif %}
+      {% if devture_traefik_config_entrypoint_web_secure_forwardedHeaders_insecure %}
+      insecure: true
+      {% endif %}
+    {% endif %}
 {% endif %}
 
 {% for additional_entrypoint in devture_traefik_additional_entrypoints %}

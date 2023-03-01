@@ -1,4 +1,11 @@
 ---
+
 # devture_traefik_dashboard_basicauth_file_contents contains the htpasswd file contents.
 # This is populated at runtime.
 devture_traefik_dashboard_basicauth_file_contents: ''
+
+# Controls whether the forwardedHeaders section appears in the configuration for the web entrypoint
+devture_traefik_config_entrypoint_web_forwardedHeaders_enabled: "{{ devture_traefik_config_entrypoint_web_forwardedHeaders_trustedIPs | length > 0 or devture_traefik_config_entrypoint_web_forwardedHeaders_insecure }}"
+
+# Controls whether the forwardedHeaders section appears in the configuration for the web-secure entrypoint
+devture_traefik_config_entrypoint_web_secure_forwardedHeaders_enabled: "{{ devture_traefik_config_entrypoint_web_secure_forwardedHeaders_trustedIPs | length > 0 or devture_traefik_config_entrypoint_web_secure_forwardedHeaders_insecure }}"
