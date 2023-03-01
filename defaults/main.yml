@@ -11,7 +11,7 @@ devture_traefik_ssl_dir_path: "{{ devture_traefik_base_path }}/ssl"
 
 devture_traefik_systemd_required_services_list: ['docker.service']
 
-devture_traefik_container_image: "docker.io/traefik:v2.9.6"
+devture_traefik_container_image: "docker.io/traefik:v2.9.8"
 
 devture_traefik_container_network: traefik
 
