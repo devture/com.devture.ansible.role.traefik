@@ -3,6 +3,11 @@
 
 devture_traefik_enabled: true
 
+devture_traefik_version: v2.9.8
+
+devture_traefik_uid: ''
+devture_traefik_gid: ''
+
 devture_traefik_base_path: "/devture-traefik"
 devture_traefik_config_dir_path: "{{ devture_traefik_base_path }}/config"
 
@@ -11,15 +16,14 @@ devture_traefik_ssl_dir_path: "{{ devture_traefik_base_path }}/ssl"
 
 devture_traefik_systemd_required_services_list: ['docker.service']
 
-devture_traefik_container_image: "docker.io/traefik:v2.9.8"
+devture_traefik_container_image: "{{ devture_traefik_container_image_registry_prefix }}traefik:{{ devture_traefik_container_image_tag }}"
+devture_traefik_container_image_tag: "{{ devture_traefik_version }}"
+devture_traefik_container_image_registry_prefix: docker.io/
 
 devture_traefik_container_network: traefik
 
 # A list of extra arguments to pass to the container
 devture_traefik_container_extra_arguments: []
-
-devture_traefik_uid: ~
-devture_traefik_gid: ~
 
 # Specifies the primary entrypoint.
 # We default to the web-secure entrypoint if it's enabled.
