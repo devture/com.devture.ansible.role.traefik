@@ -16,6 +16,7 @@ ExecStartPre={{ devture_systemd_docker_base_host_command_docker }} create \
 			--rm \
 			--name=devture-traefik \
 			--log-driver=none \
+			--read-only \
 			--network={{ devture_traefik_container_network }} \
 			{% if devture_traefik_container_web_host_bind_port %}
 			-p {{ devture_traefik_container_web_host_bind_port }}:{{ devture_traefik_config_entrypoint_web_port }} \
