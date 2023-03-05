@@ -90,5 +90,5 @@
 - name: Ensure Traefik systemd service installed
   ansible.builtin.template:
     src: "{{ role_path }}/templates/devture-traefik.service.j2"
-    dest: "{{ devture_systemd_docker_base_systemd_path }}/devture-traefik.service"
+    dest: "{{ devture_systemd_docker_base_systemd_path }}/{{ devture_traefik_identifier }}.service"
     mode: 0644

@@ -1,5 +1,5 @@
 [Unit]
-Description=Traefik
+Description=Traefik ({{ devture_traefik_identifier }})
 {% for service in devture_traefik_systemd_required_services_list %}
 Requires={{ service }}
 After={{ service }}
@@ -9,8 +9,8 @@ DefaultDependencies=no
 [Service]
 Type=simple
 Environment="HOME={{ devture_systemd_docker_base_systemd_unit_home_path }}"
-ExecStartPre=-{{ devture_systemd_docker_base_host_command_sh }} -c '{{ devture_systemd_docker_base_host_command_docker }} kill devture-traefik 2>/dev/null || true'
-ExecStartPre=-{{ devture_systemd_docker_base_host_command_sh }} -c '{{ devture_systemd_docker_base_host_command_docker }} rm devture-traefik 2>/dev/null || true'
+ExecStartPre=-{{ devture_systemd_docker_base_host_command_sh }} -c '{{ devture_systemd_docker_base_host_command_docker }} kill {{ devture_traefik_identifier }} 2>/dev/null || true'
+ExecStartPre=-{{ devture_systemd_docker_base_host_command_sh }} -c '{{ devture_systemd_docker_base_host_command_docker }} rm {{ devture_traefik_identifier }} 2>/dev/null || true'
 
 {#
 If a socket is used, we need to run as root and not drop capabilities, because:
@@ -23,7 +23,7 @@ If a non-socket endpoint is used, we can drop all capabilities and just run with
 #}
 ExecStartPre={{ devture_systemd_docker_base_host_command_docker }} create \
 			--rm \
-			--name=devture-traefik \
+			--name={{ devture_traefik_identifier }} \
 			--log-driver=none \
 			{% if not devture_traefik_config_providers_docker_endpoint_is_unix_socket %}
 			--user={{ devture_traefik_uid }}:{{ devture_traefik_gid }} \
@@ -56,16 +56,16 @@ ExecStartPre={{ devture_systemd_docker_base_host_command_docker }} create \
 			--configFile=/config/traefik.yml
 
 {% for network in devture_traefik_container_additional_networks %}
-ExecStartPre={{ devture_systemd_docker_base_host_command_docker }} network connect {{ network }} devture-traefik
+ExecStartPre={{ devture_systemd_docker_base_host_command_docker }} network connect {{ network }} {{ devture_traefik_identifier }}
 {% endfor %}
 
-ExecStart={{ devture_systemd_docker_base_host_command_docker }} start --attach devture-traefik
+ExecStart={{ devture_systemd_docker_base_host_command_docker }} start --attach {{ devture_traefik_identifier }}
 
-ExecStop=-{{ devture_systemd_docker_base_host_command_sh }} -c '{{ devture_systemd_docker_base_host_command_docker }} kill devture-traefik 2>/dev/null || true'
-ExecStop=-{{ devture_systemd_docker_base_host_command_sh }} -c '{{ devture_systemd_docker_base_host_command_docker }} rm devture-traefik 2>/dev/null || true'
+ExecStop=-{{ devture_systemd_docker_base_host_command_sh }} -c '{{ devture_systemd_docker_base_host_command_docker }} kill {{ devture_traefik_identifier }} 2>/dev/null || true'
+ExecStop=-{{ devture_systemd_docker_base_host_command_sh }} -c '{{ devture_systemd_docker_base_host_command_docker }} rm {{ devture_traefik_identifier }} 2>/dev/null || true'
 Restart=always
 RestartSec=30
-SyslogIdentifier=devture-traefik
+SyslogIdentifier={{ devture_traefik_identifier }}
 
 [Install]
 WantedBy=multi-user.target
