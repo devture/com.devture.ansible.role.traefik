@@ -1,4 +1,5 @@
 ---
+
 # Project source code URL: https://github.com/traefik/traefik
 
 devture_traefik_enabled: true
@@ -85,6 +86,9 @@ devture_traefik_config_entrypoint_web_secure_forwardedHeaders_trustedIPs: []
 # Controls `forwardedHeaders.insecure` for this entrypoint.
 # Also see: `devture_traefik_config_entrypoint_web_secure_forwardedHeaders_trustedIPs`
 devture_traefik_config_entrypoint_web_secure_forwardedHeaders_insecure: false
+
+# Controls the `providers.docker.network` configuration option.
+devture_traefik_config_providers_docker_network: "{{ devture_traefik_container_network }}"
 
 # devture_traefik_config_api_dashboard controls the api.dashboard configuration setting,
 # which controls whether the dashboard is enabled.
