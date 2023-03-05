@@ -31,6 +31,12 @@
     - devture_traefik_config_certificatesResolvers_acme_email
     - devture_traefik_config_certificatesResolvers_acme_httpChallenge_entrypoint
 
+- name: Fail if Traefik docker endpoint syntax invalid
+  fail:
+    msg: >-
+      devture_traefik_config_providers_docker_endpoint must look like `unix:///var/run/docker.sock` or `tcp://host:2345`
+  when: "not (devture_traefik_config_providers_docker_endpoint.startswith('unix://') or devture_traefik_config_providers_docker_endpoint.startswith('tcp://'))"
+
 - name: Fail if required Traefik Dashboard settings not defined
   ansible.builtin.fail:
     msg: >-

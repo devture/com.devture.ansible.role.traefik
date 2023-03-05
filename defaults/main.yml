@@ -90,6 +90,9 @@ devture_traefik_config_entrypoint_web_secure_forwardedHeaders_insecure: false
 # Controls the `providers.docker.network` configuration option.
 devture_traefik_config_providers_docker_network: "{{ devture_traefik_container_network }}"
 
+# Controls the `providers.docker.endpoint` configuration option.
+devture_traefik_config_providers_docker_endpoint: unix:///var/run/docker.sock
+
 # devture_traefik_config_api_dashboard controls the api.dashboard configuration setting,
 # which controls whether the dashboard is enabled.
 # See: devture_traefik_dashboard_enabled

@@ -9,3 +9,7 @@ devture_traefik_config_entrypoint_web_forwardedHeaders_enabled: "{{ devture_trae
 
 # Controls whether the forwardedHeaders section appears in the configuration for the web-secure entrypoint
 devture_traefik_config_entrypoint_web_secure_forwardedHeaders_enabled: "{{ devture_traefik_config_entrypoint_web_secure_forwardedHeaders_trustedIPs | length > 0 or devture_traefik_config_entrypoint_web_secure_forwardedHeaders_insecure }}"
+
+# Specifies whether the docker endpoint is a UNIX socket or not.
+# When a socket is used, we need to run the Traefik container with more privileges, so that it can read via the socket.
+devture_traefik_config_providers_docker_endpoint_is_unix_socket: "{{ devture_traefik_config_providers_docker_endpoint.startswith('unix://') }}"

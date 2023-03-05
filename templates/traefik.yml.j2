@@ -83,5 +83,6 @@ providers:
   docker:
     exposedByDefault: false
     network: {{ devture_traefik_config_providers_docker_network | to_json }}
+    endpoint: {{ devture_traefik_config_providers_docker_endpoint | to_json }}
   file:
     filename: /config/provider.yml

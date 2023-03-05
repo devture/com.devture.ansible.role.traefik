@@ -12,10 +12,23 @@ Environment="HOME={{ devture_systemd_docker_base_systemd_unit_home_path }}"
 ExecStartPre=-{{ devture_systemd_docker_base_host_command_sh }} -c '{{ devture_systemd_docker_base_host_command_docker }} kill devture-traefik 2>/dev/null || true'
 ExecStartPre=-{{ devture_systemd_docker_base_host_command_sh }} -c '{{ devture_systemd_docker_base_host_command_docker }} rm devture-traefik 2>/dev/null || true'
 
+{#
+If a socket is used, we need to run as root and not drop capabilities, because:
+- we won't be able to access the socket (owned by root:docker on most distros)
+- we won't be able to access the /config files (unless we add another capability that lets root access other users' files)
+
+If a non-socket endpoint is used, we can drop all capabilities and just run with the uid/gid, because:
+- reading through the remote (TCP) endpoint does not require special privileges
+- the configuration files are owned by the same uid/gid, so reading them works
+#}
 ExecStartPre={{ devture_systemd_docker_base_host_command_docker }} create \
 			--rm \
 			--name=devture-traefik \
 			--log-driver=none \
+			{% if not devture_traefik_config_providers_docker_endpoint_is_unix_socket %}
+			--user={{ devture_traefik_uid }}:{{ devture_traefik_gid }} \
+			--cap-drop=ALL \
+			{% endif %}
 			--read-only \
 			--network={{ devture_traefik_container_network }} \
 			{% if devture_traefik_container_web_host_bind_port %}
@@ -33,7 +46,9 @@ ExecStartPre={{ devture_systemd_docker_base_host_command_docker }} create \
 			{% if devture_traefik_ssl_dir_enabled %}
 			--mount type=bind,src={{ devture_traefik_ssl_dir_path }},dst=/ssl \
 			{% endif %}
-			--mount type=bind,src=/var/run/docker.sock,dst=/var/run/docker.sock,ro \
+			{% if devture_traefik_config_providers_docker_endpoint_is_unix_socket %}
+			--mount type=bind,src={{ devture_traefik_config_providers_docker_endpoint | replace('unix://', '') }},dst=/var/run/docker.sock,ro \
+			{% endif %}
 			{{ devture_traefik_container_image }} \
 			{% if devture_traefik_container_extra_arguments | length > 0 %}
 			{{ devture_traefik_container_extra_arguments | join(" ") }} \
