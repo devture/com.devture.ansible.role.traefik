@@ -12,7 +12,7 @@ Environment="HOME={{ devture_systemd_docker_base_systemd_unit_home_path }}"
 ExecStartPre=-{{ devture_systemd_docker_base_host_command_sh }} -c '{{ devture_systemd_docker_base_host_command_docker }} kill devture-traefik 2>/dev/null || true'
 ExecStartPre=-{{ devture_systemd_docker_base_host_command_sh }} -c '{{ devture_systemd_docker_base_host_command_docker }} rm devture-traefik 2>/dev/null || true'
 
-ExecStart={{ devture_systemd_docker_base_host_command_docker }} run \
+ExecStartPre={{ devture_systemd_docker_base_host_command_docker }} create \
 			--rm \
 			--name=devture-traefik \
 			--log-driver=none \
@@ -38,6 +38,12 @@ ExecStart={{ devture_systemd_docker_base_host_command_docker }} run \
 			{{ devture_traefik_container_extra_arguments | join(" ") }} \
 			{% endif %}
 			--configFile=/config/traefik.yml
+
+{% for network in devture_traefik_container_additional_networks %}
+ExecStartPre={{ devture_systemd_docker_base_host_command_docker }} network connect {{ network }} devture-traefik
+{% endfor %}
+
+ExecStart={{ devture_systemd_docker_base_host_command_docker }} start --attach devture-traefik
 
 ExecStop=-{{ devture_systemd_docker_base_host_command_sh }} -c '{{ devture_systemd_docker_base_host_command_docker }} kill devture-traefik 2>/dev/null || true'
 ExecStop=-{{ devture_systemd_docker_base_host_command_sh }} -c '{{ devture_systemd_docker_base_host_command_docker }} rm devture-traefik 2>/dev/null || true'
