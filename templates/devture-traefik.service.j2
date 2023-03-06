@@ -13,11 +13,11 @@ ExecStartPre=-{{ devture_systemd_docker_base_host_command_sh }} -c '{{ devture_s
 ExecStartPre=-{{ devture_systemd_docker_base_host_command_sh }} -c '{{ devture_systemd_docker_base_host_command_docker }} rm {{ devture_traefik_identifier }} 2>/dev/null || true'
 
 {#
-If a socket is used, we need to run as root and not drop capabilities, because:
+If a UNIX socket is used, we need to run as root and not drop capabilities, because:
 - we won't be able to access the socket (owned by root:docker on most distros)
 - we won't be able to access the /config files (unless we add another capability that lets root access other users' files)
 
-If a non-socket endpoint is used, we can drop all capabilities and just run with the uid/gid, because:
+If a non-UNIX-socket endpoint is used, we can drop all capabilities and just run with the uid/gid, because:
 - reading through the remote (TCP) endpoint does not require special privileges
 - the configuration files are owned by the same uid/gid, so reading them works
 #}
