@@ -78,6 +78,26 @@
     group: "{{ devture_traefik_gid }}"
     mode: 0640
 
+# If the Docker API is accessed through a UNIX socket (like we do by default), the container is run as root,
+# which means that the acme.json file is also created as root. For such a privilege container, this root-owned file is OK.
+#
+# When switching to accessing the Docker API via TCP, we run the container with a regular user.
+# An already existing acme.json (owned by root:root) won't be accessible and needs to be fixed up.
+- when: not devture_traefik_config_providers_docker_endpoint_is_unix_socket
+  name: Ensure acme.json file ownership is correct
+  block:
+    - name: Check existence of acme.json file
+      ansible.builtin.stat:
+        path: "{{ devture_traefik_ssl_dir_path }}/acme.json"
+      register: devture_traefik_ssl_acme_json_stat
+
+    - when: devture_traefik_ssl_acme_json_stat.stat.exists | bool
+      name: Ensure acme.json file ownership set correctly
+      ansible.builtin.file:
+        path: "{{ devture_traefik_ssl_dir_path }}/acme.json"
+        owner: "{{ devture_traefik_uid }}"
+        group: "{{ devture_traefik_gid }}"
+
 - name: Ensure Traefik container image is pulled
   community.docker.docker_image:
     name: "{{ devture_traefik_container_image }}"
