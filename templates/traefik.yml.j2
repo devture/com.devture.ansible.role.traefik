@@ -38,8 +38,8 @@ entryPoints:
     http:
       redirections:
         entryPoint:
-          to: {{ devture_traefik_config_entrypoint_web_to_web_secure_redirection_to | to_json }}
-          scheme: {{ devture_traefik_config_entrypoint_web_to_web_secure_redirection_scheme | to_json }}
+          to: {{ devture_traefik_config_entrypoint_web_secure_name }}
+          scheme: https
     {% endif %}
 {% endif %}
 
