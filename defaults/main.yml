@@ -63,7 +63,8 @@ devture_traefik_config_certificatesResolvers_acme_httpChallenge_entrypoint: "{{ 
 devture_traefik_config_entrypoint_web_enabled: true
 devture_traefik_config_entrypoint_web_name: web
 devture_traefik_config_entrypoint_web_port: 80
-devture_traefik_config_entrypoint_web_address: ":{{ devture_traefik_config_entrypoint_web_port }}"
+devture_traefik_config_entrypoint_web_port_in_container: 8080
+devture_traefik_config_entrypoint_web_address: ":{{ devture_traefik_config_entrypoint_web_port_in_container }}"
 # Controls `forwardedHeaders.trustedIPs`, specifying from which IPs to trust `X-Forwarded-*` headers.
 # By default, we expect that there's no other reverse-proxy in front of us, so we don't trust anything.
 # Also see: `devture_traefik_config_entrypoint_web_forwardedHeaders_insecure`
@@ -75,12 +76,15 @@ devture_traefik_config_entrypoint_web_forwardedHeaders_insecure: false
 # Controls whether the web entrypoint should be redirected to web-secure
 # If web-secure is enabled, we enable this redirection by default.
 devture_traefik_config_entrypoint_web_to_web_secure_redirection_enabled: "{{ devture_traefik_config_entrypoint_web_secure_enabled }}"
+devture_traefik_config_entrypoint_web_to_web_secure_redirection_to: ":{{ devture_traefik_config_entrypoint_web_secure_port }}"
+devture_traefik_config_entrypoint_web_to_web_secure_redirection_scheme: https
 
 # Controls whether the web-secure entrypoint is enabled
 devture_traefik_config_entrypoint_web_secure_enabled: true
 devture_traefik_config_entrypoint_web_secure_name: web-secure
 devture_traefik_config_entrypoint_web_secure_port: 443
-devture_traefik_config_entrypoint_web_secure_address: ":{{ devture_traefik_config_entrypoint_web_secure_port }}"
+devture_traefik_config_entrypoint_web_secure_port_in_container: 8443
+devture_traefik_config_entrypoint_web_secure_address: ":{{ devture_traefik_config_entrypoint_web_secure_port_in_container }}"
 # Controls `forwardedHeaders.trustedIPs`, specifying from which IPs to trust `X-Forwarded-*` headers.
 # By default, we expect that there's no other reverse-proxy in front of us, so we don't trust anything.
 # Also see: `devture_traefik_config_entrypoint_web_secure_forwardedHeaders_insecure`
