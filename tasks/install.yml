@@ -122,7 +122,7 @@
   community.docker.docker_network:
     name: "{{ devture_traefik_container_network }}"
 
-- name: Ensure container-socket-proxy container network exists via command
+- name: Ensure Traefik container network exists via command
   when: devture_systemd_docker_base_container_network_creation_method == 'command'
   ansible.builtin.command:
     cmd: "{{ devture_systemd_docker_base_host_command_docker }} network create {{ devture_traefik_container_network }}"
