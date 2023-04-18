@@ -98,14 +98,36 @@
         owner: "{{ devture_traefik_uid }}"
         group: "{{ devture_traefik_gid }}"
 
-- name: Ensure Traefik container image is pulled
+- name: Ensure Traefik container image is pulled via community.docker.docker_image
+  when: devture_systemd_docker_base_container_image_pull_method == 'ansible-module'
   community.docker.docker_image:
     name: "{{ devture_traefik_container_image }}"
     source: "{{ 'pull' if ansible_version.major > 2 or ansible_version.minor > 7 else omit }}"  # noqa args
+  register: result
+  retries: "{{ devture_playbook_help_container_retries_count }}"
+  delay: "{{ devture_playbook_help_container_retries_delay }}"
+  until: result is not failed
 
-- name: Ensure Traefik container network exists
+- name: Ensure Traefik container image is pulled via command
+  when: devture_systemd_docker_base_container_image_pull_method == 'command'
+  ansible.builtin.command:
+    cmd: "{{ devture_systemd_docker_base_host_command_docker }} pull {{ devture_traefik_container_image }}"
+  register: result
+  retries: "{{ devture_playbook_help_container_retries_count }}"
+  delay: "{{ devture_playbook_help_container_retries_delay }}"
+  until: result is not failed
+
+- name: Ensure Traefik container network exists via community.docker.docker_network
+  when: devture_systemd_docker_base_container_network_creation_method == 'ansible-module'
   community.docker.docker_network:
     name: "{{ devture_traefik_container_network }}"
+
+- name: Ensure container-socket-proxy container network exists via command
+  when: devture_systemd_docker_base_container_network_creation_method == 'command'
+  ansible.builtin.command:
+    cmd: "{{ devture_systemd_docker_base_host_command_docker }} network create {{ devture_traefik_container_network }}"
+  register: network_creation_result
+  failed_when: network_creation_result.rc != 0 and 'already exists' not in network_creation_result.stderr
 
 - name: Ensure Traefik systemd service installed
   ansible.builtin.template:
