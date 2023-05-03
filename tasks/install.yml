@@ -78,6 +78,14 @@
     group: "{{ devture_traefik_gid }}"
     mode: 0640
 
+- name: Ensure custom.yml installed
+  ansible.builtin.template:
+    src: "{{ role_path }}/templates/custom.yml.j2"
+    dest: "{{ devture_traefik_config_dir_path }}/custom.yml"
+    owner: "{{ devture_traefik_uid }}"
+    group: "{{ devture_traefik_gid }}"
+    mode: 0640
+
 # If the Docker API is accessed through a UNIX socket (like we do by default), the container is run as root,
 # which means that the acme.json file is also created as root. For such a privilege container, this root-owned file is OK.
 #
