@@ -85,7 +85,4 @@ providers:
     network: {{ devture_traefik_config_providers_docker_network | to_json }}
     endpoint: {{ devture_traefik_config_providers_docker_endpoint | to_json }}
   file:
-    filename: /config/provider.yml
-    {% if devture_traefik_configuration_custom_file_enabled %}
-      filename: /config/custom.yml 
-    {% endif %}
+    directory: /config
