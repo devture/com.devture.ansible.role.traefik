@@ -211,6 +211,46 @@ devture_traefik_configuration_extension_yaml: |
   # api:
   #   dashboard: true
 
+# Set to `true` if you like to deploy your own custom provider-file to traefik
+devture_traefik_configuration_custom_file_enabled: false
+devture_traefik_configuration_custom_file_content: |
+  # Your custom YAML configuration for Traefik goes here.
+  # You will need that config if you have another Webserver outside of your docker-env like the nextcloud example following.
+  # This configuration will be placed in an own custom provider-file called `custom.yml` under `/matrix/traefik/conf/custom.yml`
+  # The file will be processed and can contain all your custom traefik configruation. (see https://doc.traefik.io/traefik/providers/file/)
+  # Example configuration extension follows:
+  #
+  # http:
+  #   middlewares:
+  #     nextcloudmiddleware:
+  #       headers:
+  #         customFrameOptionsValue: "ALLOW-FROM https://cloud.YOURDOMAIN"
+  #         contentSecurityPolicy: "frame-ancestors 'self' cloud.YOURDOMAIN *.cloud.YOURDOMAIN"
+  #         stsSeconds: 155520011
+  #         stsIncludeSubdomains: true
+  #         stsPreload: true
+  #         customresponseheaders:
+  #           X-Frame-Options: SAMEORIGIN
+  #     nextcloudredirects:
+  #       redirectregex:
+  #         permanent: true
+  #         regex: 'https://(.*)/.well-known/(?:card|cal)dav'
+  #         replacement: 'https://$${1}/remote.php/dav'
+  #  routers:
+  #    nextcloud:
+  #    entryPoints: "web-secure"
+  #    service: nextcloudservice
+  #    rule: "Host(`cloud.YOURDOMAIN`)"
+  #    middlewares: nextcloudmiddleware
+  #    tls:
+  #      certResolver: "default"
+  #  services:
+  #    nextcloudservice:
+  #      loadBalancer:
+  #        servers:
+  #          - url: "http://YOURIP:YOURPORT/"
+
+
 devture_traefik_configuration_extension: "{{ devture_traefik_configuration_extension_yaml | from_yaml if devture_traefik_configuration_extension_yaml | from_yaml is mapping else {} }}"
 
 # Holds the final Traefik configuration (a combination of the default and its extension).
