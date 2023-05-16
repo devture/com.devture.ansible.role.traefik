@@ -233,3 +233,13 @@ devture_traefik_environment_variables: ''
 #   my.label=1
 #   another.label="here"
 devture_traefik_labels_additional_labels: ''
+
+# devture_traefik_additional_config_files_content can be used to add addtional files to the traefik config dir
+# This makes it possible to add private key files for using the DNS challenge
+# Example:
+#devture_traefik_additional_config_files_content: 
+#  - name: 'privatekey.key'
+#    content: 'here the long private key content'
+#  - name: 'otherfile'
+#    content: 'other file content'
+devture_traefik_additional_config_files_content: []

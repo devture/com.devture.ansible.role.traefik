@@ -46,6 +46,18 @@
       become: false
       delegate_to: 127.0.0.1
 
+- name: Ensure Traefik additional files installed
+  when: devture_traefik_additional_config_files_content != [] | bool
+  ansible.builtin.copy:
+    content: "{{ item.content }}"
+    dest: "{{ devture_traefik_config_dir_path }}/{{ item.name }}"
+    owner: "{{ devture_traefik_uid }}"
+    group: "{{ devture_traefik_gid }}"
+    mode: 0640
+  loop: "{{ devture_traefik_additional_config_files_content }}"
+  loop_control:
+    label: "{{ item.name }}"
+
 - name: Ensure Traefik environment variables installed
   ansible.builtin.copy:
     content: "{{ devture_traefik_environment_variables }}"
