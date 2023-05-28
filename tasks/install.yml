@@ -71,8 +71,8 @@
     mode: 0640
 
 - name: Ensure provider.yml installed
-  ansible.builtin.template:
-    src: "{{ role_path }}/templates/provider.yml.j2"
+  ansible.builtin.copy:
+    content: "{{ devture_traefik_provider_configuration | to_nice_yaml(indent=2, width=999999) }}"
     dest: "{{ devture_traefik_config_dir_path }}/provider.yml"
     owner: "{{ devture_traefik_uid }}"
     group: "{{ devture_traefik_gid }}"

@@ -217,6 +217,41 @@ devture_traefik_configuration_extension: "{{ devture_traefik_configuration_exten
 # You most likely don't need to touch this variable. Instead, see `devture_traefik_configuration_yaml`.
 devture_traefik_configuration: "{{ devture_traefik_configuration_yaml | from_yaml | combine(devture_traefik_configuration_extension, recursive=True) }}"
 
+# Default Traefik provider configuration template which covers the generic use case.
+# You can customize it by controlling the various variables inside it.
+#
+# For a more advanced customization, you can extend the default (see `devture_traefik_provider_configuration_yaml`)
+# or completely replace this variable with your own template.
+devture_traefik_provider_configuration_yaml: "{{ lookup('template', 'templates/provider.yml.j2') }}"
+
+devture_traefik_provider_configuration_extension_yaml: |
+  # Your custom YAML configuration for Traefik provider goes here.
+  # This configuration extends the default starting configuration (`devture_traefik_provider_configuration_yaml`).
+  #
+  # You can override individual variables from the default configuration, or introduce new ones.
+  #
+  # If you need something more special, you can take full control by
+  # completely redefining `devture_traefik_provider_configuration_yaml`.
+  #
+  # Example configuration extension follows:
+  #
+  # http:
+  #  routers:
+  #    traefik:
+  #      service: noop@internal
+  #      tls:
+  #        domains:
+  #          - main: "example.com"
+  #            sans:
+  #              - "*.example.com"
+  #        certresolver: default
+
+devture_traefik_provider_configuration_extension: "{{ devture_traefik_provider_configuration_extension_yaml | from_yaml if devture_traefik_provider_configuration_extension_yaml | from_yaml is mapping else {} }}"
+
+# Holds the final Traefik provider configuration (a combination of the default and its extension).
+# You most likely don't need to touch this variable. Instead, see `devture_traefik_provider_configuration_yaml`.
+devture_traefik_provider_configuration: "{{ devture_traefik_provider_configuration_yaml | from_yaml | combine(devture_traefik_provider_configuration_extension, recursive=True) }}"
+
 # devture_traefik_environment_variables holds a string with environment variable to pass to Traefik.
 #
 # Example:
