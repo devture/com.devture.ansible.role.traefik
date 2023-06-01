@@ -100,7 +100,7 @@ devture_traefik_config_entrypoint_web_secure_forwardedHeaders_insecure: false
 
 # Controls whether the metrics entrypoint is enabled
 devture_traefik_config_entrypoint_metrics_enabled: "{{ devture_traefik_config_metrics_prometheus_enabled }}"
-devture_traefik_config_entrypoint_metrics_name: metrics
+devture_traefik_config_entrypoint_metrics_name: "{{ devture_traefik_config_metrics_prometheus_entrypoint }}"
 devture_traefik_config_entrypoint_metrics_port: 8082
 devture_traefik_config_entrypoint_metrics_port_in_container: 8082
 devture_traefik_config_entrypoint_metrics_address: ":{{ devture_traefik_config_entrypoint_metrics_port_in_container }}"
