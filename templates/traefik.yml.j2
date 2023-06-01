@@ -97,7 +97,7 @@ certificatesResolvers:
 {% if devture_traefik_config_metrics_prometheus_enabled %}
 metrics:
   prometheus:
-    entryPoint: metrics
+    entryPoint: {{ devture_traefik_config_metrics_prometheus_entrypoint | to_json }}
 {% endif %}
 
 providers:
