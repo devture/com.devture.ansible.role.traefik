@@ -46,9 +46,10 @@ devture_traefik_config_log_level: INFO
 # Controls whether logs for incoming requests are collected
 devture_traefik_config_accessLog_enabled: true
 
-# Controls whether prometheus metrics will be exposed. You will need to set
-# a entrypoint named `metrics` for this to work properly
+# Controls whether Prometheus metrics will be exposed on a new metrics entrypoint.
+# See devture_traefik_config_entrypoint_metrics_enabled
 devture_traefik_config_metrics_prometheus_enabled: false
+devture_traefik_config_metrics_prometheus_entrypoint: metrics
 
 # Controls whether the ACME (https://en.wikipedia.org/wiki/Automatic_Certificate_Management_Environment) certificate resolver is enabled.
 # By default, if the web-secure entrypoint is enabled, we enable Let's Encrypt.
