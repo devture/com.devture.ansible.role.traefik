@@ -58,6 +58,21 @@ entryPoints:
     {% endif %}
 {% endif %}
 
+{% if devture_traefik_config_entrypoint_metrics_enabled %}
+  {{ devture_traefik_config_entrypoint_metrics_name }}:
+    address: {{ devture_traefik_config_entrypoint_metrics_address | to_json }}
+
+    {% if devture_traefik_config_entrypoint_metrics_forwardedHeaders_enabled %}
+    forwardedHeaders:
+      {% if devture_traefik_config_entrypoint_metrics_forwardedHeaders_trustedIPs | length > 0 %}
+      trustedIPs: {{ devture_traefik_config_entrypoint_metrics_forwardedHeaders_trustedIPs | to_json }}
+      {% endif %}
+      {% if devture_traefik_config_entrypoint_metrics_forwardedHeaders_insecure %}
+      insecure: true
+      {% endif %}
+    {% endif %}
+{% endif %}
+
 {% for additional_entrypoint in devture_traefik_additional_entrypoints %}
   {% set additional_entrypoint_config = ({
 	  'address': ':' + (additional_entrypoint.port | string),
@@ -77,6 +92,12 @@ certificatesResolvers:
       caServer: {{ devture_traefik_config_certificatesResolvers_acme_caServer | to_json }}
       httpChallenge:
         entrypoint: {{ devture_traefik_config_certificatesResolvers_acme_httpChallenge_entrypoint | to_json }}
+{% endif %}
+
+{% if devture_traefik_config_metrics_prometheus_enabled %}
+metrics:
+  prometheus:
+    entryPoint: {{ devture_traefik_config_metrics_prometheus_entrypoint | to_json }}
 {% endif %}
 
 providers:
