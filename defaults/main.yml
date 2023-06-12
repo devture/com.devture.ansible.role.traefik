@@ -158,7 +158,7 @@ devture_traefik_dashboard_basicauth_file_tmp: "/tmp/ansible-htpasswd-devture-tra
 # Each entrypoint must be defined with the following parameters:
 # - name: the name of the entrypoint
 # - port: the port number used for the entrypoint within the Traefik container
-# - host_bind_port: the port number (e.g. 1234) or interface + port (0.0.0.0:1234) where the container will publish the port
+# - host_bind_port: an optional port number (e.g. 1234) or interface + port (0.0.0.0:1234) where the container will publish the port
 # - config: a mapping with additional configuration options for the entrypoint
 #
 # Example:
