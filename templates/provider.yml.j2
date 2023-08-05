@@ -27,7 +27,7 @@ http:
         tls:
           certResolver: {{ devture_traefik_dashboard_tls_certResolver | to_json }}
         {% else %}
-		tls: false
+        tls: false
         {% endif %}
         {% if devture_traefik_dashboard_basicauth_enabled %}
         middlewares: traefik-dashboard-auth
