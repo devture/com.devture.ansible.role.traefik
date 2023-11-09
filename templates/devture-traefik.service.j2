@@ -54,10 +54,10 @@ ExecStartPre={{ devture_systemd_docker_base_host_command_docker }} create \
 			{% if devture_traefik_config_providers_docker_endpoint_is_unix_socket %}
 			--mount type=bind,src={{ devture_traefik_config_providers_docker_endpoint | replace('unix://', '') }},dst=/var/run/docker.sock,ro \
 			{% endif %}
-			{{ devture_traefik_container_image }} \
 			{% if devture_traefik_container_extra_arguments | length > 0 %}
 			{{ devture_traefik_container_extra_arguments | join(" ") }} \
 			{% endif %}
+			{{ devture_traefik_container_image }} \
 			--configFile=/config/traefik.yml
 
 {% for network in devture_traefik_container_additional_networks %}
