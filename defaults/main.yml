@@ -34,6 +34,12 @@ devture_traefik_container_extra_arguments: "{{ devture_traefik_container_extra_a
 devture_traefik_container_extra_arguments_auto: []
 devture_traefik_container_extra_arguments_custom: []
 
+# A list of extra arguments to pass to the Traefik process
+# Example: ['--api']
+devture_traefik_process_extra_arguments: "{{ devture_traefik_process_extra_arguments_auto + devture_traefik_process_extra_arguments_custom }}"
+devture_traefik_process_extra_arguments_auto: []
+devture_traefik_process_extra_arguments_custom: []
+
 # Specifies the primary entrypoint.
 # We default to the web-secure entrypoint if it's enabled.
 # When web-secure is enabled, the web (80) entrypoint redirects to web-secure (443)
