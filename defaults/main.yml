@@ -30,7 +30,9 @@ devture_traefik_container_network: traefik
 devture_traefik_container_additional_networks: []
 
 # A list of extra arguments to pass to the container
-devture_traefik_container_extra_arguments: []
+devture_traefik_container_extra_arguments: "{{ devture_traefik_container_extra_arguments_auto + devture_traefik_container_extra_arguments_custom }}"
+devture_traefik_container_extra_arguments_auto: []
+devture_traefik_container_extra_arguments_custom: []
 
 # Specifies the primary entrypoint.
 # We default to the web-secure entrypoint if it's enabled.
