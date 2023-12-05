@@ -27,7 +27,9 @@ devture_traefik_container_network: traefik
 
 # A list of additional container networks that the container would be connected to.
 # The role does not create these networks, so make sure they already exist.
-devture_traefik_container_additional_networks: []
+devture_traefik_container_additional_networks: "{{ (devture_traefik_container_additional_networks_auto + devture_traefik_container_additional_networks_custom) | unique }}"
+devture_traefik_container_additional_networks_auto: []
+devture_traefik_container_additional_networks_custom: []
 
 # A list of extra arguments to pass to the container
 devture_traefik_container_extra_arguments: "{{ devture_traefik_container_extra_arguments_auto + devture_traefik_container_extra_arguments_custom }}"
