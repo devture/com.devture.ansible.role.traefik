@@ -18,3 +18,6 @@
   block:
     - when: not devture_traefik_enabled | bool
       ansible.builtin.include_tasks: "{{ role_path }}/tasks/uninstall.yml"
+- name: Debugging
+  debug:
+    msg: "devture_traefik_config_certificatesResolvers_acme_dnsChallenge_enabled is set to {{ devture_traefik_config_certificatesResolvers_acme_dnsChallenge_enabled }}"
