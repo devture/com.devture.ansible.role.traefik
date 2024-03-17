@@ -84,7 +84,7 @@ devture_traefik_config_certificatesResolvers_acme_dnsChallenge_enabled: false
 # Specify the DNS provider to handle DNS challenges.
 devture_traefik_config_certificatesResolvers_acme_dnsChallenge_provider: ""
 # The delay in seconds before checking DNS propagation for the ACME DNS challenge.
-devture_traefik_config_certificatesResolvers_acme_dnsChallenge_delayBeforeCheck: '''
+devture_traefik_config_certificatesResolvers_acme_dnsChallenge_delayBeforeCheck: ''
 # The list of DNS resolvers to be used for the ACME DNS challenge.
 devture_traefik_config_certificatesResolvers_acme_dnsChallenge_resolvers: []
 
