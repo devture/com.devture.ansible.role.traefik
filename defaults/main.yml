@@ -71,8 +71,36 @@ devture_traefik_config_certificatesResolvers_acme_storage: /ssl/acme.json # in-c
 devture_traefik_config_certificatesResolvers_acme_use_staging: false
 # devture_traefik_config_certificatesResolvers_acme_caServer specifies the CA server endpoint to use.
 devture_traefik_config_certificatesResolvers_acme_caServer: "{{ 'https://acme-staging-v02.api.letsencrypt.org/directory' if devture_traefik_config_certificatesResolvers_acme_use_staging else 'https://acme-v02.api.letsencrypt.org/directory' }}"
+# devture_traefik_config_certificatesResolvers_acme_httpChallenge_enabled controls whether the Let's Encrypt httpChallenge is used or not.
+devture_traefik_config_certificatesResolvers_acme_httpChallenge_enabled: "{{ 'false' if devture_traefik_config_certificatesResolvers_acme_dnsChallenge_enabled else 'true' }}"
 # devture_traefik_config_certificatesResolvers_acme_httpChallenge_entrypoint controls on which entrypoint the HTTP ACME challenge is enabled.
 devture_traefik_config_certificatesResolvers_acme_httpChallenge_entrypoint: "{{ devture_traefik_config_entrypoint_web_name if devture_traefik_config_entrypoint_web_enabled else '' }}"
+
+
+# Controls whether the ACME DNS challenge is enabled.
+# For more information on supported providers, settings and environment variables, please refer to:
+# https://doc.traefik.io/traefik/https/acme/#providers
+# If enabled, Traefik will use DNS challenges to obtain Let's Encrypt certificates.
+devture_traefik_config_certificatesResolvers_acme_dnsChallenge_enabled: false
+# Specify the DNS provider to handle DNS challenges.
+devture_traefik_config_certificatesResolvers_acme_dnsChallenge_provider: ""
+# The delay in seconds before checking DNS propagation for the ACME DNS challenge.
+devture_traefik_config_certificatesResolvers_acme_dnsChallenge_delayBeforeCheck: 900
+# The list of DNS resolvers to be used for the ACME DNS challenge.
+devture_traefik_config_certificatesResolvers_acme_dnsChallenge_resolvers: []
+# Example for netcup DNS provider:
+# devture_traefik_config_certificatesResolvers_acme_dnsChallenge_enabled: true
+# devture_traefik_config_certificatesResolvers_acme_dnsChallenge_provider: netcup
+# devture_traefik_config_certificatesResolvers_acme_dnsChallenge_resolvers:
+#  - "root-dns.netcup.net"
+#  - "second-dns.netcup.net"
+#
+# traefik_environment_variables_additional_variables:
+#   - "NETCUP_CUSTOMER_NUMBER='12345'"
+#   - "NETCUP_API_KEY='api_key'"
+#   - "NETCUP_API_PASSWORD='password'"
+
+
 
 # Controls whether the web entrypoint is enabled
 devture_traefik_config_entrypoint_web_enabled: true

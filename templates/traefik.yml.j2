@@ -90,8 +90,16 @@ certificatesResolvers:
       email: {{ devture_traefik_config_certificatesResolvers_acme_email | to_json }}
       storage: {{ devture_traefik_config_certificatesResolvers_acme_storage | to_json }}
       caServer: {{ devture_traefik_config_certificatesResolvers_acme_caServer | to_json }}
+      {% if devture_traefik_config_certificatesResolvers_acme_httpChallenge_enabled %}
       httpChallenge:
         entrypoint: {{ devture_traefik_config_certificatesResolvers_acme_httpChallenge_entrypoint | to_json }}
+      {% endif %}
+      {% if devture_traefik_config_certificatesResolvers_acme_dnsChallenge_enabled %}
+      dnsChallenge:
+        provider: {{ devture_traefik_config_certificatesResolvers_acme_dnsChallenge_provider }}
+        delayBeforeCheck: {{ devture_traefik_config_certificatesResolvers_acme_dnsChallenge_delayBeforeCheck }}
+        resolvers: {{ devture_traefik_config_certificatesResolvers_acme_dnsChallenge_resolvers }}
+      {% endif %}
 {% endif %}
 
 {% if devture_traefik_config_metrics_prometheus_enabled %}
