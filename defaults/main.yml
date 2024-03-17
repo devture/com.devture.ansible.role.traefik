@@ -76,7 +76,6 @@ devture_traefik_config_certificatesResolvers_acme_httpChallenge_enabled: "{{ not
 # devture_traefik_config_certificatesResolvers_acme_httpChallenge_entrypoint controls on which entrypoint the HTTP ACME challenge is enabled.
 devture_traefik_config_certificatesResolvers_acme_httpChallenge_entrypoint: "{{ devture_traefik_config_entrypoint_web_name if devture_traefik_config_entrypoint_web_enabled else '' }}"
 
-
 # Controls whether the ACME DNS challenge is enabled.
 # For more information on supported providers, settings and environment variables, please refer to:
 # https://doc.traefik.io/traefik/https/acme/#providers
@@ -88,19 +87,18 @@ devture_traefik_config_certificatesResolvers_acme_dnsChallenge_provider: ""
 devture_traefik_config_certificatesResolvers_acme_dnsChallenge_delayBeforeCheck: 900
 # The list of DNS resolvers to be used for the ACME DNS challenge.
 devture_traefik_config_certificatesResolvers_acme_dnsChallenge_resolvers: []
-# Example for netcup DNS provider:
+
+# Example for dnsChallenge and netcup DNS provider:
+#
 # devture_traefik_config_certificatesResolvers_acme_dnsChallenge_enabled: true
 # devture_traefik_config_certificatesResolvers_acme_dnsChallenge_provider: netcup
 # devture_traefik_config_certificatesResolvers_acme_dnsChallenge_resolvers:
 #  - "root-dns.netcup.net"
 #  - "second-dns.netcup.net"
-#
-# traefik_environment_variables_additional_variables:
-#   - "NETCUP_CUSTOMER_NUMBER='12345'"
-#   - "NETCUP_API_KEY='api_key'"
-#   - "NETCUP_API_PASSWORD='password'"
-
-
+# traefik_environment_variables_additional_variables: |
+#   NETCUP_CUSTOMER_NUMBER=12345
+#   NETCUP_API_KEY=api_key
+#   NETCUP_API_PASSWORD=password
 
 # Controls whether the web entrypoint is enabled
 devture_traefik_config_entrypoint_web_enabled: true
