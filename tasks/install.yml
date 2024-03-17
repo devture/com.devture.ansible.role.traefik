@@ -1,9 +1,5 @@
 ---
 
-- name: Debugging
-  debug:
-    msg: "devture_traefik_config_certificatesResolvers_acme_dnsChallenge_enabled is set to {{ devture_traefik_config_certificatesResolvers_acme_dnsChallenge_enabled }}"
-
 - name: Ensure Traefik paths exist
   ansible.builtin.file:
     path: "{{ item.path }}"
