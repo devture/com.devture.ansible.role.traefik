@@ -93,8 +93,7 @@ certificatesResolvers:
       {% if devture_traefik_config_certificatesResolvers_acme_httpChallenge_enabled %}
       httpChallenge:
         entrypoint: {{ devture_traefik_config_certificatesResolvers_acme_httpChallenge_entrypoint | to_json }}
-      {% endif %}
-      {% if devture_traefik_config_certificatesResolvers_acme_dnsChallenge_enabled %}
+      {% elif devture_traefik_config_certificatesResolvers_acme_dnsChallenge_enabled %}
       dnsChallenge:
         provider: {{ devture_traefik_config_certificatesResolvers_acme_dnsChallenge_provider }}
         delayBeforeCheck: {{ devture_traefik_config_certificatesResolvers_acme_dnsChallenge_delayBeforeCheck }}
