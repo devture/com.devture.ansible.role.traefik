@@ -54,13 +54,16 @@
     group: "{{ devture_traefik_gid }}"
     mode: 0640
 
-- name: Ensure Traefik labels file installed
+- name: Ensure Traefik support files installed
   ansible.builtin.template:
-    src: "{{ role_path }}/templates/labels.j2"
-    dest: "{{ devture_traefik_config_dir_path }}/labels"
+    src: "{{ role_path }}/templates/{{ item }}.j2"
+    dest: "{{ devture_traefik_config_dir_path }}/{{ item }}"
     owner: "{{ devture_traefik_uid }}"
     group: "{{ devture_traefik_gid }}"
     mode: 0640
+  with_items:
+    - env
+    - labels
 
 - name: Ensure traefik.yml installed
   ansible.builtin.copy:
