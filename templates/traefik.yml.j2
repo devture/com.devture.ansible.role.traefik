@@ -95,11 +95,11 @@ certificatesResolvers:
         entrypoint: {{ devture_traefik_config_certificatesResolvers_acme_httpChallenge_entrypoint | to_json }}
       {% elif devture_traefik_config_certificatesResolvers_acme_dnsChallenge_enabled %}
       dnsChallenge:
-        provider: {{ devture_traefik_config_certificatesResolvers_acme_dnsChallenge_provider }}
+        provider: {{ devture_traefik_config_certificatesResolvers_acme_dnsChallenge_provider | to_json }}
         {% if devture_traefik_config_certificatesResolvers_acme_dnsChallenge_delayBeforeCheck %}
-          delayBeforeCheck: {{ devture_traefik_config_certificatesResolvers_acme_dnsChallenge_delayBeforeCheck }}
+          delayBeforeCheck: {{ devture_traefik_config_certificatesResolvers_acme_dnsChallenge_delayBeforeCheck | to_json }}
         {% endif %}
-        resolvers: {{ devture_traefik_config_certificatesResolvers_acme_dnsChallenge_resolvers }}
+        resolvers: {{ devture_traefik_config_certificatesResolvers_acme_dnsChallenge_resolvers | to_json }}
       {% endif %}
 {% endif %}
 
