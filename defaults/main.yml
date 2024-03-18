@@ -97,10 +97,18 @@ devture_traefik_config_certificatesResolvers_acme_dnsChallenge_resolvers: []
 # devture_traefik_config_certificatesResolvers_acme_dnsChallenge_resolvers:
 #  - "root-dns.netcup.net"
 #  - "second-dns.netcup.net"
-# traefik_environment_variables_additional_variables: |
+# devture_traefik_environment_variables_additional_variables: |
 #   NETCUP_CUSTOMER_NUMBER=12345
 #   NETCUP_API_KEY=api_key
 #   NETCUP_API_PASSWORD=password
+
+# Additional environment variables to pass to the container.
+#
+# Example:
+# devture_traefik_environment_variables_additional_variables: |
+#   VARIABLE_1=value
+#   VARIABLE_2=value
+devture_traefik_environment_variables_additional_variables: ''
 
 # Controls whether the web entrypoint is enabled
 devture_traefik_config_entrypoint_web_enabled: true
