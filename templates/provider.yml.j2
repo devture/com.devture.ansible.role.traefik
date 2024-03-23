@@ -10,7 +10,7 @@ http:
 
   routers:
     {% for domain in devture_traefik_additional_domains_to_obtain_certificates_for %}
-      {{ domain }}-dummy:
+      {{ domain|replace(".", "-") }}-dummy:
         rule: Host(`{{ domain }}`)
         service: noop@internal
         entryPoints: {{ devture_traefik_additional_domains_to_obtain_certificates_for_entryPoints | to_json }}
