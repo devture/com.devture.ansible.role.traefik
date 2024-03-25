@@ -97,7 +97,7 @@ certificatesResolvers:
       dnsChallenge:
         provider: {{ devture_traefik_config_certificatesResolvers_acme_dnsChallenge_provider | to_json }}
         {% if devture_traefik_config_certificatesResolvers_acme_dnsChallenge_delayBeforeCheck %}
-          delayBeforeCheck: {{ devture_traefik_config_certificatesResolvers_acme_dnsChallenge_delayBeforeCheck | to_json }}
+        delayBeforeCheck: {{ devture_traefik_config_certificatesResolvers_acme_dnsChallenge_delayBeforeCheck | to_json }}
         {% endif %}
         resolvers: {{ devture_traefik_config_certificatesResolvers_acme_dnsChallenge_resolvers | to_json }}
       {% endif %}
