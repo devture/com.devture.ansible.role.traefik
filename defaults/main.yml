@@ -6,7 +6,7 @@ devture_traefik_enabled: true
 
 devture_traefik_identifier: devture-traefik
 
-devture_traefik_version: v2.11.4
+devture_traefik_version: v3.0.4
 
 devture_traefik_uid: ''
 devture_traefik_gid: ''
