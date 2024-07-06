@@ -37,12 +37,18 @@ ExecStartPre={{ devture_systemd_docker_base_host_command_docker }} create \
 			{% if devture_traefik_container_web_secure_host_bind_port %}
 			-p {{ devture_traefik_container_web_secure_host_bind_port }}:{{ devture_traefik_config_entrypoint_web_secure_port_in_container }} \
 			{% endif %}
+			{% if devture_traefik_container_web_secure_host_bind_port_udp %}
+			-p {{ devture_traefik_container_web_secure_host_bind_port_udp }}:{{ devture_traefik_config_entrypoint_web_secure_port_in_container }}/udp \
+			{% endif %}
 			{% if devture_traefik_container_metrics_host_bind_port %}
 			-p {{ devture_traefik_container_metrics_host_bind_port }}:{{ devture_traefik_config_entrypoint_metrics_port_in_container }} \
 			{% endif %}
 			{% for additional_entrypoint in devture_traefik_additional_entrypoints %}
 			{% if additional_entrypoint.host_bind_port %}
 			-p {{ additional_entrypoint.host_bind_port }}:{{ additional_entrypoint.port }} \
+			{% if additional_entrypoint.host_bind_port_udp | default('') %}
+			-p {{ additional_entrypoint.host_bind_port_udp }}:{{ additional_entrypoint.port }}/udp \
+			{% endif %}
 			{% endif %}
 			{% endfor %}
 			--env-file={{ devture_traefik_config_dir_path }}/env \

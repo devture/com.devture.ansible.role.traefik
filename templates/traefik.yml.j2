@@ -47,6 +47,10 @@ entryPoints:
   {{ devture_traefik_config_entrypoint_web_secure_name }}:
     address: {{ devture_traefik_config_entrypoint_web_secure_address | to_json }}
 
+    {% if devture_traefik_config_entrypoint_web_secure_http3_enabled %}
+    http3: {{ devture_traefik_config_entrypoint_web_secure_http3_config | to_json }}
+    {% endif %}
+
     {% if devture_traefik_config_entrypoint_web_secure_forwardedHeaders_enabled %}
     forwardedHeaders:
       {% if devture_traefik_config_entrypoint_web_secure_forwardedHeaders_trustedIPs | length > 0 %}

@@ -144,6 +144,12 @@ devture_traefik_config_entrypoint_web_secure_forwardedHeaders_trustedIPs: []
 # Also see: `devture_traefik_config_entrypoint_web_secure_forwardedHeaders_trustedIPs`
 devture_traefik_config_entrypoint_web_secure_forwardedHeaders_insecure: false
 
+devture_traefik_config_entrypoint_web_secure_http3_enabled: true
+devture_traefik_config_entrypoint_web_secure_http3_config_advertisedPort: "{{ devture_traefik_config_entrypoint_web_secure_port }}"
+devture_traefik_config_entrypoint_web_secure_http3_config: "{{ devture_traefik_config_entrypoint_web_secure_http3_config_yaml | from_yaml }}"
+devture_traefik_config_entrypoint_web_secure_http3_config_yaml: |
+  advertisedPort: {{ devture_traefik_config_entrypoint_web_secure_http3_config_advertisedPort | int | to_json }}
+
 # Controls whether the metrics entrypoint is enabled
 devture_traefik_config_entrypoint_metrics_enabled: "{{ devture_traefik_config_metrics_prometheus_enabled }}"
 devture_traefik_config_entrypoint_metrics_name: "{{ devture_traefik_config_metrics_prometheus_entrypoint }}"
@@ -204,7 +210,8 @@ devture_traefik_dashboard_basicauth_file_tmp: "/tmp/ansible-htpasswd-devture-tra
 # Each entrypoint must be defined with the following parameters:
 # - name: the name of the entrypoint
 # - port: the port number used for the entrypoint within the Traefik container
-# - host_bind_port: an optional port number (e.g. 1234) or interface + port (0.0.0.0:1234) where the container will publish the port
+# - host_bind_port: an optional port number (e.g. 1234) or interface + port (0.0.0.0:1234) where the container will publish the TCP port
+# - host_bind_port_udp: an optional port number (e.g. 1234) or interface + port (0.0.0.0:1234) where the container will publish the UDP port (useful if HTTP3 is enabled in the config)
 # - config: a mapping with additional configuration options for the entrypoint
 #
 # Example:
@@ -219,6 +226,13 @@ devture_traefik_dashboard_basicauth_file_tmp: "/tmp/ansible-htpasswd-devture-tra
 #     config:
 #       http2:
 #         maxConcurrentStreams: 250
+#   - name: http3-enabled-entrypoint
+#     port: 4321
+#     host_bind_port: 127.0.0.1:4321
+#     host_bind_port_udp: 127.0.0.1:4321
+#     config:
+#       http3:
+#         advertisedPort: 4321
 devture_traefik_additional_entrypoints: "{{ devture_traefik_additional_entrypoints_auto + devture_traefik_additional_entrypoints_custom }}"
 devture_traefik_additional_entrypoints_auto: []
 devture_traefik_additional_entrypoints_custom: []
@@ -251,10 +265,15 @@ devture_traefik_additional_domains_to_obtain_certificates_for_certResolver: "{{ 
 # Takes an "<ip>:<port>" value (e.g. "127.0.0.1:80"), just a port number or an empty string to not expose.
 devture_traefik_container_web_host_bind_port: "{{ devture_traefik_config_entrypoint_web_port if devture_traefik_config_entrypoint_web_enabled else '' }}"
 
-# Specifies how the container publishes its web-secure port
+# Specifies how the container publishes its TCP web-secure port
 #
 # Takes an "<ip>:<port>" value (e.g. "127.0.0.1:443"), just a port number or an empty string to not expose.
 devture_traefik_container_web_secure_host_bind_port: "{{ devture_traefik_config_entrypoint_web_secure_port if devture_traefik_config_entrypoint_web_secure_enabled else '' }}"
+
+# Specifies how the container publishes its UDP web-secure port
+#
+# Takes an "<ip>:<port>" value (e.g. "127.0.0.1:443"), just a port number or an empty string to not expose.
+devture_traefik_container_web_secure_host_bind_port_udp: "{{ devture_traefik_config_entrypoint_web_secure_http3_config_advertisedPort if devture_traefik_config_entrypoint_web_secure_enabled and devture_traefik_config_entrypoint_web_secure_http3_enabled else '' }}"
 
 # Specifies how the container publishes its metrics port
 #
