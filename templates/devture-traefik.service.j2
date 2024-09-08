@@ -60,6 +60,9 @@ ExecStartPre={{ devture_systemd_docker_base_host_command_docker }} create \
 			{% if devture_traefik_config_providers_docker_endpoint_is_unix_socket %}
 			--mount type=bind,src={{ devture_traefik_config_providers_docker_endpoint | replace('unix://', '') }},dst=/var/run/docker.sock,ro \
 			{% endif %}
+			{% if devture_traefik_plugin_support_enabled %}
+			--mount type=bind,src={{ devture_traefik_plugins_dir_path }},dst=/plugins-storage,rw \
+			{% endif %}
 			{% if devture_traefik_container_extra_arguments | length > 0 %}
 			{{ devture_traefik_container_extra_arguments | join(" ") }} \
 			{% endif %}
