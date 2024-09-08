@@ -17,6 +17,10 @@ devture_traefik_config_dir_path: "{{ devture_traefik_base_path }}/config"
 devture_traefik_ssl_dir_enabled: "{{ devture_traefik_config_certificatesResolvers_acme_enabled }}"
 devture_traefik_ssl_dir_path: "{{ devture_traefik_base_path }}/ssl"
 
+# Controls whether devture_traefik_plugins_dir_path is created and mounted
+devture_traefik_plugin_support_enabled: false
+devture_traefik_plugins_dir_path: "{{ devture_traefik_base_path }}/plugins-storage"
+
 devture_traefik_systemd_required_services_list: "{{ [devture_systemd_docker_base_docker_service_name] if devture_systemd_docker_base_docker_service_name else [] }}"
 
 devture_traefik_container_image: "{{ devture_traefik_container_image_registry_prefix }}traefik:{{ devture_traefik_container_image_tag }}"
@@ -60,10 +64,6 @@ devture_traefik_config_accessLog_enabled: true
 # See devture_traefik_config_entrypoint_metrics_enabled
 devture_traefik_config_metrics_prometheus_enabled: false
 devture_traefik_config_metrics_prometheus_entrypoint: metrics
-
-# Controls whether devture_traefik_plugins_dir_path is created and mounted
-devture_traefik_plugin_support_enabled: false
-devture_traefik_plugins_dir_path: "{{ devture_traefik_base_path }}/plugins-storage"
 
 # Controls whether the ACME (https://en.wikipedia.org/wiki/Automatic_Certificate_Management_Environment) certificate resolver is enabled.
 # By default, if the web-secure entrypoint is enabled, we enable Let's Encrypt.
